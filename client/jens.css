@@ -1,0 +1,43 @@
+body {
+  padding: 90px 0px;
+  background-color: #eee;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+.js-login {
+  margin-top:13px;
+  float: right;
+  color: #999;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.js-remove-course, .js-remove-teacher, .js-remove-room, .js-remove-student, .js-remove-schedule {
+  float: right;
+  cursor: pointer;
+}
+
+.js-schedule-error {
+  color: red;
+}

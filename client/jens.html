@@ -1,0 +1,179 @@
+<head>
+  <title>Jens Schedule</title>
+</head>
+
+<body>
+  {{> header}}
+  <div class="container">
+    {{> schedule}}
+    {{> create}}
+    {{> generate}}
+  </div>
+</body>
+
+<template name="header">
+    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <a class="navbar-brand">Jens Schedule</a>
+            <div class="js-login">{{> loginButtons align="right"}}</div>
+        </div>
+    </div>
+</template>
+
+<template name="schedule">
+  <div class="well">
+    {{#unless scheduleOpen}}
+      <a class="btn js-schedule">Schedule</a>
+    {{else}}
+      <a class="btn js-schedule-close">Exit</a>
+
+      <div class="page-header">
+        <h4>Schedule</h4>
+      </div>
+
+      <ul class="list-group">
+        {{#each schedule}}
+          <li class="list-group-item">{{course}} - {{teacher}} - {{room}}<a class="js-remove-schedule">x</a></li>
+        {{/each}}
+      </ul>
+
+      {{#if scheduleConflict}}
+        <p class="js-schedule-error">{{scheduleConflict}}</p>
+      {{/if}}
+
+      <button class="btn btn-block btn-primary js-add-schedule">Add Schedule ( Monday 8:00-10:00 (static time for now) ) #experimenting</button>
+
+      {{#if scheduleError}}
+        <p class="js-schedule-error">{{scheduleError}}</p>
+      {{else}}
+        <br>
+      {{/if}}
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="btn-group-vertical btn-block js-courses" data-toggle="buttons">
+            {{#each courses}}
+              <label class="btn btn-default">
+                <input type="radio" name="options" id="{{course}}" autocomplete="off">{{course}}
+              </label>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="btn-group-vertical btn-block js-teachers" data-toggle="buttons">
+            {{#each teachers}}
+              <label class="btn btn-default">
+                <input type="radio" name="options" id="{{teacher}}" autocomplete="off">{{teacher}}
+              </label>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="btn-group-vertical btn-block js-rooms" data-toggle="buttons">
+            {{#each rooms}}
+              <label class="btn btn-default">
+                <input type="radio" name="options" id="{{room}}" autocomplete="off">{{room}}
+              </label>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</template>
+
+<template name="create">
+  <div class="well">
+    {{#unless createOpen}}
+      <a class="btn js-create">Courses - Teachers - Rooms</a>
+    {{else}}
+      <a class="btn js-create-close">Exit</a>
+
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Course <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each courses}}
+              <li class="list-group-item">{{course}}<a class="js-remove-course">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-course" placeholder="Add Course">
+        </div>
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Teacher <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each teachers}}
+              <li class="list-group-item">{{teacher}}<a class="js-remove-teacher">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-teacher" placeholder="Add Teacher">
+        </div>
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Room <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each rooms}}
+              <li class="list-group-item">{{room}}<a class="js-remove-room">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-room" placeholder="Add Room">
+        </div>
+
+      </div>
+    {{/unless}}
+  </div>
+</template>
+
+<template name="generate">
+  <div class="well">
+    {{#unless generateOpen}}
+      <a class="btn js-generate">Student List Generator ( Temporary Solution for Development )</a>
+    {{else}}
+      <a class="btn js-generate-close">Exit</a>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-header">
+            <h4>Student <small>List</small></h4>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="btn-group-vertical btn-block js-courses" data-toggle="buttons">
+                {{#each courses}}
+                  <label class="btn btn-default">
+                    <input type="radio" name="options" id="{{_id}}" autocomplete="off">{{course}}
+                  </label>
+                {{/each}}
+              </div>
+            </div>
+
+            <div class="col-sm-8">
+              {{#if studentExist}}
+                <ul class="list-group">
+                  {{#each students}}
+                    <li class="list-group-item">{{this}}<a class="js-remove-student">x</a></li>
+                  {{/each}}
+                </ul>
+              {{/if}}
+              {{#if selectedCourse}}
+                <input type="text" class="form-control js-add-student" placeholder="Add Student">
+              {{/if}}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</template>
