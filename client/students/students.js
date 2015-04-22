@@ -5,11 +5,14 @@ Template.create.helpers({
   rooms: function () {
     return Rooms.find( {}, { sort: { room: 1 } } );
   },
+  courses: function () {
+    return Courses.find( {}, { sort: { course: 1 } } );
+  },
   teachers: function () {
     return Teachers.find( {}, { sort: { teacher: 1 } } );
   },
-  courses: function () {
-    return Courses.find( {}, { sort: { course: 1 } } );
+  periods: function () {
+    return Periods.find( {}, { sort: { period: 1 } } );
   }
 });
 
@@ -54,19 +57,6 @@ Template.create.events({
 
     Rooms.remove(this._id);
   },
-  "keyup .js-add-teacher": function (e) {
-    e.preventDefault();
-
-    if(e.keyCode == 13 && e.target.value) {
-      Teachers.insert({ teacher: e.target.value });
-      e.target.value = "";
-    }
-  },
-  "click .js-remove-teacher": function (e) {
-    e.preventDefault();
-
-    Teachers.remove(this._id);
-  },
   "keyup .js-add-course": function (e) {
     e.preventDefault();
 
@@ -84,6 +74,32 @@ Template.create.events({
     }
 
     Courses.remove(this._id);
+  },
+  "keyup .js-add-teacher": function (e) {
+    e.preventDefault();
+
+    if(e.keyCode == 13 && e.target.value) {
+      Teachers.insert({ teacher: e.target.value });
+      e.target.value = "";
+    }
+  },
+  "click .js-remove-teacher": function (e) {
+    e.preventDefault();
+
+    Teachers.remove(this._id);
+  },
+  "keyup .js-add-period": function (e) {
+    e.preventDefault();
+
+    if(e.keyCode == 13 && e.target.value) {
+      Periods.insert({ period: e.target.value });
+      e.target.value = "";
+    }
+  },
+  "click .js-remove-period": function (e) {
+    e.preventDefault();
+
+    Periods.remove(this._id);
   }
 });
 

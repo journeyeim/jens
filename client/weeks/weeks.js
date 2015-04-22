@@ -2,16 +2,7 @@ Template.weeks.helpers({
   weeks: function () {
     return Weeks.find( {}, { sort: { week: 1 } } );
   },
-  rooms: function () {
-    return Rooms.find( {}, { sort: { room: 1 } } );
-  },
-  courses: function () {
-    return Courses.find( {}, { sort: { course: 1 } } );
-  },
-  teachers: function () {
-    return Teachers.find( {}, { sort: { teacher: 1 } } );
-  },
-  debug: function () {
+  selected: function () {
     return Session.get("selected");
   }
 });
@@ -21,7 +12,7 @@ Template.weeks.events({
     e.preventDefault();
 
     if(e.keyCode == 13 && e.target.value) {
-      Weeks.insert({ week: e.target.value });
+      Weeks.insert({ week: e.target.value, actions: [] });
       /* update - upsert by method */
       e.target.value = "";
     }

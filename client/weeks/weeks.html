@@ -6,136 +6,17 @@
 
       <div class="btn-group-vertical btn-block js-weeks" data-toggle="buttons">
         {{#each weeks}}
-          <label class="btn btn-default js-week">
+          <label class="btn btn-success js-week">
             <input type="radio" name="options" id="{{_id}}" autocomplete="off">{{week}}<a class="js-remove-week">x</a>
           </label>
         {{/each}}
       </div>
 
-      <input type="text" class="form-control js-add-week" placeholder="Enter name for a new type of week...">
+      <input type="text" class="form-control js-add-week" placeholder="Name for a new week schedule...">
     </div>
   </div>
 
-  <div class="well">
-    {{debug}}
-  </div>
-</template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<template name="week">
-
-  {{> day day="Monday"}}
-  {{> day day="Tuesday"}}
-  {{> day day="Wednesday"}}
-  {{> day day="Thuesday"}}
-  {{> day day="Friday"}}
-</template>
-
-<template name="day">
-  <div class="panel panel-default">
-
-    <div class="panel-heading">{{day}}</div>
-
-    <div class="panel-body">
-      <p>...</p>
-    </div>
-
-    <table class="table">
-      <tr>
-        <th>Course</th>
-        <th>Teacher</th>
-        <th>Room</th>
-        <th>period</th>
-      </tr>
-      <tr>
-        <td>aa</td>
-        <td>bb</td>
-        <td>cc</td>
-        <td>11</td>
-      </tr>
-      <tr>
-        <td>aa</td>
-        <td>bb</td>
-        <td>cc</td>
-        <td>11</td>
-      </tr>
-    </table>
-  </div>
-</template>
-
-
-
-
-<template name="old">
-  <div class="well">
-
-    <div class="page-header">
-      <h4>Schedule</h4>
-    </div>
-
-    <ul class="list-group">
-      {{#each schedule}}
-        <li class="list-group-item">{{course}} - {{teacher}} - {{room}}<a class="js-remove-schedule">x</a></li>
-      {{/each}}
-    </ul>
-
-    {{#if scheduleConflict}}
-      <p class="js-schedule-error">{{scheduleConflict}}</p>
-    {{/if}}
-
-    <button class="btn btn-block btn-primary js-add-schedule">Add Schedule ( Monday 8:00-10:00 (static time for now) ) #experimenting</button>
-
-    {{#if scheduleError}}
-      <p class="js-schedule-error">{{scheduleError}}</p>
-    {{else}}
-      <br>
-    {{/if}}
-
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="btn-group-vertical btn-block js-courses" data-toggle="buttons">
-          {{#each courses}}
-            <label class="btn btn-default">
-              <input type="radio" name="options" id="{{course}}" autocomplete="off">{{course}}
-            </label>
-          {{/each}}
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="btn-group-vertical btn-block js-teachers" data-toggle="buttons">
-          {{#each teachers}}
-            <label class="btn btn-default">
-              <input type="radio" name="options" id="{{teacher}}" autocomplete="off">{{teacher}}
-            </label>
-          {{/each}}
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="btn-group-vertical btn-block js-rooms" data-toggle="buttons">
-          {{#each rooms}}
-            <label class="btn btn-default">
-              <input type="radio" name="options" id="{{room}}" autocomplete="off">{{room}}
-            </label>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-  </div>
+  {{#if selected}}
+    {{> day day="Monday" sel=selected}}
+  {{/if}}
 </template>

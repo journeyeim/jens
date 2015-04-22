@@ -6,13 +6,13 @@
 <template name="create">
   <div class="well">
     {{#unless createOpen}}
-      <a class="btn js-create">Rooms - Courses - Teachers</a>
+      <a class="btn js-create">Rooms - Courses - Teachers - Periods</a>
     {{else}}
       <a class="btn js-create-close">Exit</a>
 
       <div class="row">
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="page-header">
             <h4>Room <small>List</small></h4>
           </div>
@@ -24,7 +24,7 @@
           <input type="text" class="form-control js-add-room" placeholder="Add Room">
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="page-header">
             <h4>Course <small>List</small></h4>
           </div>
@@ -36,7 +36,7 @@
           <input type="text" class="form-control js-add-course" placeholder="Add Course">
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="page-header">
             <h4>Teacher <small>List</small></h4>
           </div>
@@ -46,6 +46,18 @@
             {{/each}}
           </ul>
           <input type="text" class="form-control js-add-teacher" placeholder="Add Teacher">
+        </div>
+
+        <div class="col-sm-3">
+          <div class="page-header">
+            <h4>Period <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each periods}}
+              <li class="list-group-item">{{period}}<a class="js-remove-period">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-period" placeholder="Add Period">
         </div>
 
       </div>
