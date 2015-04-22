@@ -13,7 +13,6 @@ blaze-tools@1.0.3-rc.0
 boilerplate-generator@1.0.3-rc.0
 callback-hook@1.0.3-rc.0
 check@1.0.5-rc.0
-cmather:iron-router@0.8.1
 dburles:mongo-collection-instances@0.3.3
 ddp@1.1.0-rc.1
 deps@1.0.7-rc.0
@@ -27,6 +26,14 @@ htmljs@1.0.4-rc.0
 http@1.1.0-rc.0
 id-map@1.0.3-rc.0
 insecure@1.0.3-rc.0
+iron:controller@1.0.7
+iron:core@1.0.7
+iron:dynamic-template@1.0.7
+iron:layout@1.0.7
+iron:location@1.0.7
+iron:middleware-stack@1.0.7
+iron:router@1.0.7
+iron:url@1.0.7
 jquery@1.11.3-rc.0_2
 json@1.0.3-rc.0
 lai:collection-extensions@0.1.3

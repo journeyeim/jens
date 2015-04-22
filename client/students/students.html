@@ -1,0 +1,99 @@
+<template name="students">
+  {{> create}}
+  {{> generate}}
+</template>
+
+<template name="create">
+  <div class="well">
+    {{#unless createOpen}}
+      <a class="btn js-create">Rooms - Courses - Teachers</a>
+    {{else}}
+      <a class="btn js-create-close">Exit</a>
+
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Room <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each rooms}}
+              <li class="list-group-item">{{room}}<a class="js-remove-room">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-room" placeholder="Add Room">
+        </div>
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Course <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each courses}}
+              <li class="list-group-item">{{course}}<a class="js-remove-course">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-course" placeholder="Add Course">
+        </div>
+
+        <div class="col-sm-4">
+          <div class="page-header">
+            <h4>Teacher <small>List</small></h4>
+          </div>
+          <ul class="list-group">
+            {{#each teachers}}
+              <li class="list-group-item">{{teacher}}<a class="js-remove-teacher">x</a></li>
+            {{/each}}
+          </ul>
+          <input type="text" class="form-control js-add-teacher" placeholder="Add Teacher">
+        </div>
+
+      </div>
+    {{/unless}}
+  </div>
+</template>
+
+<template name="generate">
+  <div class="well">
+    {{#unless generateOpen}}
+      <a class="btn js-generate">Student List Generator ( Temporary Solution for Development )</a>
+    {{else}}
+      <a class="btn js-generate-close">Exit</a>
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <div class="page-header">
+            <h4>Student <small>List</small></h4>
+          </div>
+
+          <div class="row">
+
+            <div class="col-sm-4">
+              <div class="btn-group-vertical btn-block js-courses" data-toggle="buttons">
+                {{#each courses}}
+                  <label class="btn btn-default">
+                    <input type="radio" name="options" id="{{_id}}" autocomplete="off">{{course}}
+                  </label>
+                {{/each}}
+              </div>
+            </div>
+
+            <div class="col-sm-8">
+              {{#if selectedCourse}}
+                {{#if students}}
+                  <ul class="list-group">
+                    {{#each students}}
+                      <li class="list-group-item">{{this}}<a class="js-remove-student">x</a></li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
+                <input type="text" class="form-control js-add-student" placeholder="Add Student">
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</template>

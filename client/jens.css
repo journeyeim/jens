@@ -24,7 +24,7 @@ a:active {
 }
 
 .js-login {
-  margin-top:13px;
+  margin-top: 13px;
   float: right;
   color: #999;
 }
@@ -33,7 +33,21 @@ a:active {
   text-align: center;
 }
 
-.js-remove-course, .js-remove-teacher, .js-remove-room, .js-remove-student, .js-remove-schedule {
+.js-weeks,
+.js-add-week {
+  margin-bottom: 13px;
+}
+
+.js-week {
+  text-align: left;
+}
+
+.js-remove-course,
+.js-remove-teacher,
+.js-remove-room,
+.js-remove-student,
+.js-remove-schedule,
+.js-remove-week {
   float: right;
   cursor: pointer;
 }

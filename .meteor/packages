@@ -11,4 +11,4 @@ mrt:bootstrap-3
 msavin:mongol
 accounts-ui
 accounts-password
-cmather:iron-router
+iron:router
