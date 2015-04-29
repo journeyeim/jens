@@ -1,0 +1,96 @@
+<template name="week">
+
+  <table class="table table-condensed">
+   <thead>
+    <tr>
+      {{#each headers}}
+       <th class="js-headers">{{this}}</th>
+      {{/each}}
+    </tr>
+   </thead>
+   <tbody>
+     {{#each lessons}}
+      <tr>
+        <th>
+          {{lesson}}
+        </th>
+        <td>
+          {{#unless equals da "monday" le lesson}}
+            {{#each monday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+              </div>
+            {{/each}}
+          {{else}}
+            {{#each monday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+              </div>
+            {{/each}}
+            {{> addLesson parent=this day=da}}
+          {{/unless}}
+        </td>
+        <td>
+          {{#unless equals da "tuesday" le lesson}}
+            {{#each tuesday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+              </div>
+            {{/each}}
+          {{else}}
+            {{#each tuesday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+              </div>
+            {{/each}}
+            {{> addLesson parent=this day=da}}
+          {{/unless}}
+        </td>
+        <td>
+          {{#unless equals da "wednesday" le lesson}}
+            {{#each wednesday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+              </div>
+            {{/each}}
+          {{else}}
+            {{#each wednesday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+              </div>
+            {{/each}}
+            {{> addLesson parent=this day=da}}
+          {{/unless}}
+        </td>
+        <td>
+          {{#unless equals da "thursday" le lesson}}
+            {{#each thursday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+              </div>
+            {{/each}}
+          {{else}}
+            {{#each thursday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+              </div>
+            {{/each}}
+            {{> addLesson parent=this day=da}}
+          {{/unless}}
+        </td>
+        <td>
+          {{#unless equals da "friday" le lesson}}
+            {{#each friday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+              </div>
+            {{/each}}
+          {{else}}
+            {{#each friday}}
+              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
+                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+              </div>
+            {{/each}}
+            {{> addLesson parent=this day=da}}
+          {{/unless}}
+        </td>
+      </tr>
+     {{/each}}
+   </tbody>
+  </table>
+</template>

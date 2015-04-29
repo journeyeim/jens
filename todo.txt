@@ -1,7 +1,0 @@
-structure
-router
-
-viewmodel or component
-
-tests :) yheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-time dimension :) dooooooone

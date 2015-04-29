@@ -1,0 +1,44 @@
+<template name="addLesson">
+
+  <div class="btn-group btn-group-vertical js-add-lesson">
+
+    <div class="btn-group">
+      <button type="button" class="js-btn btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span> {{jsChooseCourse}}
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {{#each courses}}
+          <li><a class="js-choose-course">{{course}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="js-btn btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span> {{jsChooseRoom}}
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {{#each rooms}}
+          <li><a class="js-choose-room">{{room}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="js-btn btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span> {{jsChooseTeacher}}
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {{#each teachers}}
+          <li><a class="js-choose-teacher">{{teacher}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-danger js-add-lesson-btn">Add</button>
+    </div>
+
+  </div>
+
+</template>

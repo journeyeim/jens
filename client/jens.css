@@ -9,37 +9,38 @@ body {
 
 table {
   table-layout: fixed;
+  background: white;
 }
 
-th, td {
+td:hover {
+  background: #ccc;
+}
+
+th {
   text-align: center;
-  padding: 10px 15px;
-  border: none;
 }
 
-a:link {
-    text-decoration: none;
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
 }
 
-a:visited {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-a:active {
-    text-decoration: none;
-}
+/* jens-schedule classes */
 
 .js-login {
   margin-top: 13px;
   float: right;
 }
 
-.page-header {
-  text-align: center;
+.js-lesson {
+  padding: 0px 8px;
+  margin: 1px;
+  background: white;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.js-add-lesson {
+  margin-top: 4px;
 }
 
 .js-weeks {
@@ -55,30 +56,44 @@ a:active {
   margin-bottom: 40px;
 }
 
-.js-action-group .btn {
-  border: none;
-}
-
 .js-remove-week {
   color: white;
   float: right;
   cursor: pointer;
 }
 
-.js-remove-week,
-.js-remove-room,
 .js-remove-course,
+.js-remove-room,
 .js-remove-teacher,
-.js-remove-period,
-.js-remove-student {
+.js-remove-student,
+.js-remove-lesson {
   float: right;
-  cursor: pointer;
-}
-
-.js-remove-action {
   cursor: pointer;
 }
 
 .js-schedule-error {
   color: red;
+}
+
+.js-headers:first-child {
+  width: 40px;
+}
+
+.js-btn {
+  text-align: left;
+}
+
+/* bootstrap overrides */
+
+.page-header {
+  text-align: center;
+}
+
+.btn-group {
+  width: 100%;
+}
+
+.list-group-item {
+  word-wrap: break-word;
+  overflow: hidden;
 }
