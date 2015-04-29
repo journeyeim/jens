@@ -8,12 +8,13 @@ body {
 }
 
 table {
+  color: #555;
   table-layout: fixed;
   background: white;
 }
 
 td:hover {
-  background: #ccc;
+  background: #f8f8f8;
 }
 
 th {
@@ -33,14 +34,16 @@ a:link, a:visited, a:hover, a:active {
 
 .js-lesson {
   padding: 0px 8px;
-  margin: 1px;
+  margin: 3px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   background: white;
   word-wrap: break-word;
   overflow: hidden;
 }
 
 .js-add-lesson {
-  margin-top: 4px;
+  margin: 3px;
 }
 
 .js-weeks {
@@ -91,6 +94,11 @@ a:link, a:visited, a:hover, a:active {
 
 .btn-group {
   width: 100%;
+  padding-right: 3px;
+}
+
+.btn {
+  border-radius: 8px !important;
 }
 
 .list-group-item {

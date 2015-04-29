@@ -14,15 +14,6 @@ Controller('week', {
     },
     headers: function () {
       return headers;
-    },
-    le: function () {
-      return Session.get("lesson");
-    },
-    da: function () {
-      return Session.get("day");
-    },
-    equals: function (a, b, c, d) {
-      return a === b && c === d;
     }
   },
   events: {
@@ -40,19 +31,6 @@ Controller('week', {
 
       Session.set("lesson", lesson);
       Session.set("day", day);
-    },
-    "click .js-remove-lesson": function (e, t) {
-      e.preventDefault();
-
-      var query = {};
-
-      query[e.target.dataset.day] = {
-        "course": this.course,
-        "room": this.room,
-        "teacher": this.teacher
-      };
-
-      Lessons.update( { "_id": e.target.dataset.id }, { "$pull": query } );
     }
   }
 });

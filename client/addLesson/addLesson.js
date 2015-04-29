@@ -77,7 +77,7 @@ Controller('addLesson', {
       };
 
       if(c !== "Course" && r !== "Room" && t !== "Teacher") {
-        Lessons.update( { "_id": this.parent._id }, { "$push": query } );
+        Lessons.update( { "_id": this.parent.parent._id }, { "$push": query } );
 
         Meteor.defer( function () {
           Session.set("lesson", null);

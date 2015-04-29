@@ -15,79 +15,19 @@
           {{lesson}}
         </th>
         <td>
-          {{#unless equals da "monday" le lesson}}
-            {{#each monday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-              </div>
-            {{/each}}
-          {{else}}
-            {{#each monday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
-              </div>
-            {{/each}}
-            {{> addLesson parent=this day=da}}
-          {{/unless}}
+          {{> cell parent=this dayconst="monday" dayvar=monday}}
         </td>
         <td>
-          {{#unless equals da "tuesday" le lesson}}
-            {{#each tuesday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-              </div>
-            {{/each}}
-          {{else}}
-            {{#each tuesday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
-              </div>
-            {{/each}}
-            {{> addLesson parent=this day=da}}
-          {{/unless}}
+          {{> cell parent=this dayconst="tuesday" dayvar=tuesday}}
         </td>
         <td>
-          {{#unless equals da "wednesday" le lesson}}
-            {{#each wednesday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-              </div>
-            {{/each}}
-          {{else}}
-            {{#each wednesday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
-              </div>
-            {{/each}}
-            {{> addLesson parent=this day=da}}
-          {{/unless}}
+          {{> cell parent=this dayconst="wednesday" dayvar=wednesday}}
         </td>
         <td>
-          {{#unless equals da "thursday" le lesson}}
-            {{#each thursday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-              </div>
-            {{/each}}
-          {{else}}
-            {{#each thursday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
-              </div>
-            {{/each}}
-            {{> addLesson parent=this day=da}}
-          {{/unless}}
+          {{> cell parent=this dayconst="thursday" dayvar=thursday}}
         </td>
         <td>
-          {{#unless equals da "friday" le lesson}}
-            {{#each friday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-              </div>
-            {{/each}}
-          {{else}}
-            {{#each friday}}
-              <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-                <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
-              </div>
-            {{/each}}
-            {{> addLesson parent=this day=da}}
-          {{/unless}}
+          {{> cell parent=this dayconst="friday" dayvar=friday}}
         </td>
       </tr>
      {{/each}}
