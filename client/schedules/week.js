@@ -1,13 +1,4 @@
 Controller('week', {
-  created: function() {
-    // Stuff to do on created.
-  },
-  rendered: function() {
-    // Stuff to do on rendered.
-  },
-  destroyed: function() {
-    // Stuff to do on destroyed.
-  },
   helpers: {
     lessons: function () {
       return Lessons.find( {}, { sort: { lesson: 1 } } );

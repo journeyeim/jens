@@ -1,12 +1,7 @@
-Controller('weeks', {
-  created: function() {
-    // Stuff to do on created.
-  },
+Controller('schedules', {
   rendered: function() {
+    // Stuff to do on rendered.
     Session.set("selected", null);
-  },
-  destroyed: function() {
-    // Stuff to do on destroyed.
   },
   helpers: {
     weeks: function () {

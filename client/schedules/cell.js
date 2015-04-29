@@ -7,9 +7,6 @@ Controller('cell', {
     // Stuff to do on rendered.
     isConflict(this);
   },
-  destroyed: function() {
-    // Stuff to do on destroyed.
-  },
   helpers: {
     le: function () {
       return Session.get("lesson");

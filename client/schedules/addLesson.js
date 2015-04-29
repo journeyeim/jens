@@ -1,14 +1,9 @@
 Controller('addLesson', {
-  created: function() {
-    // Stuff to do on created.
-  },
   rendered: function() {
+    // Stuff to do on rendered.
       Session.set("jsChooseCourse", "Course");
       Session.set("jsChooseRoom", "Room");
       Session.set("jsChooseTeacher", "Teacher");
-  },
-  destroyed: function() {
-    // Stuff to do on destroyed.
   },
   helpers: {
 

@@ -1,14 +1,9 @@
-<template name="students">
-  {{> create}}
-  {{> generate}}
-</template>
-
-<template name="create">
+<template name="lists">
   <div class="well">
 
     <div class="row">
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="page-header">
           <h4>Course <small>List</small></h4>
         </div>
@@ -20,7 +15,7 @@
         <input type="text" class="form-control js-add-course" placeholder="Add Course">
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="page-header">
           <h4>Room <small>List</small></h4>
         </div>
@@ -32,7 +27,7 @@
         <input type="text" class="form-control js-add-room" placeholder="Add Room">
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="page-header">
           <h4>Teacher <small>List</small></h4>
         </div>
@@ -44,46 +39,18 @@
         <input type="text" class="form-control js-add-teacher" placeholder="Add Teacher">
       </div>
 
-    </div>
-  </div>
-</template>
-
-<template name="generate">
-  <div class="well">
-
-    <div class="row">
-
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <div class="page-header">
           <h4>Student <small>List</small></h4>
         </div>
-
-        <div class="row">
-
-          <div class="col-sm-4">
-            <div class="btn-group-vertical btn-block js-courses" data-toggle="buttons">
-              {{#each courses}}
-                <label class="btn btn-default">
-                  <input type="radio" name="options" id="{{_id}}" autocomplete="off">{{course}}
-                </label>
-              {{/each}}
-            </div>
-          </div>
-
-          <div class="col-sm-8">
-            {{#if selectedCourse}}
-              {{#if students}}
-                <ul class="list-group">
-                  {{#each students}}
-                    <li class="list-group-item">{{this}}<a class="js-remove-student">x</a></li>
-                  {{/each}}
-                </ul>
-              {{/if}}
-              <input type="text" class="form-control js-add-student" placeholder="Add Student">
-            {{/if}}
-          </div>
-        </div>
+        <ul class="list-group">
+          {{#each students}}
+            <li class="list-group-item"><a class="js-remove-student">x</a>{{student}}</li>
+          {{/each}}
+        </ul>
+        <input type="text" class="form-control js-add-student" placeholder="Add Student Name and Number (separated by comma)">
       </div>
+
     </div>
   </div>
 </template>
