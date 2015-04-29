@@ -59,7 +59,7 @@ Template.create.events({
   },
   "keyup .js-add-course": function (e) {
     e.preventDefault();
-
+    // esc html!!!
     if(e.keyCode == 13 && e.target.value) {
       Courses.insert({ course: e.target.value, students: [] });
       /* update - upsert by method */

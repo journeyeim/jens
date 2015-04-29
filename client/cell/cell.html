@@ -1,17 +1,24 @@
 <template name="cell">
 
     {{#unless equals da dayconst le ../lesson}}
-      {{#each dayvar}}
+      {{#each lessonarray}}
         <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
         </div>
       {{/each}}
     {{else}}
-      {{#each dayvar}}
+      {{#each lessonarray}}
         <div class="js-lesson">
-          <a class="js-remove-lesson" data-day={{da}} data-id={{../_id}} >x</a>
+          <a class="js-remove-lesson" data-day={{da}} data-id={{../../_id}} >x</a>
           {{this.course}} {{this.room}} {{this.teacher}}
         </div>
       {{/each}}
+      <div class={{notificationClass}}>
+        {{#if notification}}
+          {{{notification}}}
+        {{else}}
+          No Conflict
+        {{/if}}
+      </div>
       {{> addLesson parent=this day=da}}
     {{/unless}}
 

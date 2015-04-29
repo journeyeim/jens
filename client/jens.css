@@ -74,8 +74,12 @@ a:link, a:visited, a:hover, a:active {
   cursor: pointer;
 }
 
-.js-schedule-error {
+.js-conflict {
   color: red;
+}
+
+.js-no-conflict {
+  color: green;
 }
 
 .js-headers:first-child {
