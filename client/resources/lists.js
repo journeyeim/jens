@@ -19,21 +19,24 @@ Controller('lists', {
 
     "keyup .js-add-course": function (e) {
       e.preventDefault();
-      // esc html!!!
-      if(e.keyCode == 13 && e.target.value) {
-        Courses.insert({ course: e.target.value, students: [] });
-        /* update - upsert by method */
+
+      var name = e.target.value;
+
+      if(e.keyCode == 13 && name && Courses.find( { course: name } ).count() === 0) {
+
+        Meteor.call("courseAdding", name);
+
         e.target.value = "";
       }
     },
     "click .js-remove-course": function (e) {
       e.preventDefault();
 
-      if(Session.get("selectedCourse") === this._id) {
-        Session.set("selectedCourse", null);
+      if(Session.get("courseSelected") === this._id) {
+        Session.set("courseSelected", null);
       }
 
-      Courses.remove(this._id);
+      Meteor.call("courseRemoving", this._id);
     },
 
     /* rooms */
@@ -41,15 +44,19 @@ Controller('lists', {
     "keyup .js-add-room": function (e) {
       e.preventDefault();
 
-      if(e.keyCode == 13 && e.target.value) {
-        Rooms.insert({ room: e.target.value });
+      var name = e.target.value;
+
+      if(e.keyCode == 13 && name && Rooms.find( { room: name } ).count() === 0) {
+
+        Meteor.call("roomAdding", name);
+
         e.target.value = "";
       }
     },
     "click .js-remove-room": function (e) {
       e.preventDefault();
 
-      Rooms.remove(this._id);
+      Meteor.call("roomRemoving", this._id);
     },
 
     /* teachers */
@@ -57,15 +64,19 @@ Controller('lists', {
     "keyup .js-add-teacher": function (e) {
       e.preventDefault();
 
-      if(e.keyCode == 13 && e.target.value) {
-        Teachers.insert({ teacher: e.target.value });
+      var name = e.target.value;
+
+      if(e.keyCode == 13 && name && Teachers.find( { teacher: name } ).count() === 0) {
+
+        Meteor.call("teacherAdding", name);
+
         e.target.value = "";
       }
     },
     "click .js-remove-teacher": function (e) {
       e.preventDefault();
 
-      Teachers.remove(this._id);
+      Meteor.call("teacherRemoving", this._id);
     },
 
     /* students */
@@ -73,35 +84,58 @@ Controller('lists', {
     "keyup .js-add-student": function (e) {
       e.preventDefault();
 
-      if(e.keyCode == 13 && e.target.value) {
+      var student = e.target.value;
 
-        //separate name and number from e.target.value
-        var pair = e.target.value.split(",");
+      if(e.keyCode == 13 && student) {
 
-        if(pair.length === 2 && e.target.value) {
+        var pair = student.split(",");
+
+        if(pair.length === 2) {
 
           var name = pair[0].trim();
           var number = pair[1].trim();
 
-            if(name.length > 0 && number.length > 0) {
+          if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: number } ).count() === 0) {
 
-              Students.insert({ student: name, number: number });
-              e.target.value = "";
-            }
+            Meteor.call("studentAdding", name, number);
+
+            e.target.value = "";
+          }
         }
       }
     },
     "keyup .js-add-students": function (e) {
       e.preventDefault();
-      // over lists templ: implement textarea
 
+      var students = e.target.value;
+
+      if(e.keyCode == 13 && students) {
+
+        var lines = students.split("\n");
+
+        for(var i = 0; i < lines.length; i++) {
+
+          var pair = lines[i].split(",");
+
+          if(pair.length === 2) {
+
+            var name = pair[0].trim();
+            var number = pair[1].trim();
+
+            if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: number } ).count() === 0) {
+
+              Meteor.call("studentAdding", name, number);
+            }
+          }
+        }
+
+        e.target.value = "";
+      }
     },
     "click .js-remove-student": function (e) {
       e.preventDefault();
 
-      Students.remove(this._id);
-
-      // remove from everywhere !!!
+      Meteor.call("studentRemoving", this._id, this.number);
     }
   }
 });

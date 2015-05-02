@@ -51,10 +51,6 @@ Controller('cas', {
   },
   events: {
 
-// upsert in order to avoid duplicats
-// esc html on inputs
-// onRemoveStudent remove it from all arrays !!!
-
     /* course */
 
     "click .js-courses": function (e) {
@@ -78,7 +74,7 @@ Controller('cas', {
 
       query[e.target.checked ? "$push" : "$pull"] = { students: this.number };
 
-      Courses.update( { _id: Session.get("courseSelected") }, query );
+      Meteor.call("courseStudentAssignment", Session.get("courseSelected"), query);
     },
 
     /* classes */
@@ -97,7 +93,7 @@ Controller('cas', {
           }
         }
 
-        Meteor.call("saveClass", e.target.value, students);
+        Meteor.call("classSaving", e.target.value, students);
 
         e.target.value = "";
       }
@@ -133,7 +129,7 @@ Controller('cas', {
     "click .js-remove-class": function (e) {
       e.preventDefault();
 
-      Classes.remove(this._id);
+      Meteor.call("classRemoving", this._id);
     }
   }
 });

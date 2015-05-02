@@ -18,8 +18,8 @@
                 <div>
                   <label>
                     <input type="radio" name="courses" class="js-courses" value="{{_id}}"> {{course}}
+                    <span class="badge js-courses-badge">{{studentCount _id}}</span>
                   </label>
-                  <span class="badge js-courses-badge">{{studentCount _id}}</span>
                 </div>
               {{/each}}
             </form>
