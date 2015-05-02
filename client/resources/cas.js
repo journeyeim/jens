@@ -97,7 +97,7 @@ Controller('cas', {
           }
         }
 
-        Classes.insert({ class: e.target.value, students: students });
+        Meteor.call("saveClass", e.target.value, students);
 
         e.target.value = "";
       }
@@ -109,11 +109,24 @@ Controller('cas', {
       var checkboxes = $(".js-students");
 
       for(var i = 0; i < checkboxes.length; i++) {
+
+        var checkedBeforeChange = checkboxes[i].checked;
+
         if($.inArray(checkboxes[i].value, students) !== -1) {
+
           checkboxes[i].checked = true;
+
+          if(! checkedBeforeChange) {
+            $(checkboxes[i]).trigger("change");
+          }
         }
         else {
+
           checkboxes[i].checked = false;
+
+          if(checkedBeforeChange) {
+            $(checkboxes[i]).trigger("change");
+          }
         }
       }
     },
