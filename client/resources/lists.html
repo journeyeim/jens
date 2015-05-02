@@ -45,10 +45,12 @@
         </div>
         <ul class="list-group">
           {{#each students}}
-            <li class="list-group-item"><a class="js-remove-student">x</a>{{student}}</li>
+            <li class="list-group-item"><a class="js-remove-student">x</a>{{student}}, {{number}}</li>
           {{/each}}
         </ul>
-        <input type="text" class="form-control js-add-student" placeholder="Add Student Name and Number (separated by comma)">
+        <input type="text" class="form-control js-add-student" placeholder="Add Student Name, Number (separated by comma)">
+        <br>
+        <textarea class="form-control js-add-students" rows="5" placeholder='or Paste Student List here (one "Name, Number" per line)'></textarea>
       </div>
 
     </div>

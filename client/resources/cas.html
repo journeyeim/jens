@@ -1,0 +1,79 @@
+<template name="cas">
+  <div class="well">
+
+    <div class="row">
+
+      <div class="col-sm-12">
+        <div class="page-header">
+          <h4>Courses <small>and</small> Students</h4>
+        </div>
+
+        <div class="row">
+
+          <!-- Courses -->
+
+          <div class="col-sm-4">
+            <form>
+              {{#each courses}}
+                <div>
+                  <label>
+                    <input type="radio" name="courses" class="js-courses" value="{{_id}}"> {{course}}
+                  </label>
+                  <span class="badge js-courses-badge">{{studentCount _id}}</span>
+                </div>
+              {{/each}}
+            </form>
+          </div>
+
+          <!-- Students -->
+
+          <div class="col-sm-4">
+            {{#if courseSelected}}
+              {{#each students}}
+                <div>
+                  <label>
+                    <input type="checkbox" class="js-students" value={{number}} checked={{studentChecked number}}> {{student}}, {{number}}
+                  </label>
+                </div>
+              {{/each}}
+            {{else}}
+              <p>Select a Course right here on the left first!</p>
+              <p>Then select Students to get them assigned to the selected Course!</p>
+            {{/if}}
+          </div>
+
+          <!-- Options -->
+
+          <div class="col-sm-4">
+            {{#if courseSelected}}
+
+              <div>
+                <label>
+                  <input type="checkbox" class="js-student-sort"> Sort by Student Number
+                </label>
+              </div>
+
+              <input type="text" class="form-control js-save-class" placeholder="Save Class">
+
+              <div class="btn-group">
+                <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <span class="caret"></span> Load Class
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {{#each classes}}
+                  <li><a class="js-remove-class">x</a><a class="js-load-class">{{class}}</a></li>
+                  {{/each}}
+                </ul>
+              </div>
+
+            {{/if}}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</template>

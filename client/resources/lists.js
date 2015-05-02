@@ -74,14 +74,34 @@ Controller('lists', {
       e.preventDefault();
 
       if(e.keyCode == 13 && e.target.value) {
-        Students.insert({ student: e.target.value });
-        e.target.value = "";
+
+        //separate name and number from e.target.value
+        var pair = e.target.value.split(",");
+
+        if(pair.length === 2 && e.target.value) {
+
+          var name = pair[0].trim();
+          var number = pair[1].trim();
+
+            if(name.length > 0 && number.length > 0) {
+
+              Students.insert({ student: name, number: number });
+              e.target.value = "";
+            }
+        }
       }
+    },
+    "keyup .js-add-students": function (e) {
+      e.preventDefault();
+      // over lists templ: implement textarea
+
     },
     "click .js-remove-student": function (e) {
       e.preventDefault();
 
       Students.remove(this._id);
+
+      // remove from everywhere !!!
     }
   }
 });
