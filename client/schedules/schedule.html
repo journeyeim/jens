@@ -1,4 +1,4 @@
-<template name="week">
+<template name="schedule">
 
   <table class="table table-condensed">
    <thead>
@@ -15,19 +15,19 @@
           {{lesson}}
         </th>
         <td>
-          {{> cell parent=this dayconst="monday" lessonarray=monday}}
+          {{> lessons parent=this dayconst="monday" lessonarray=monday}}
         </td>
         <td>
-          {{> cell parent=this dayconst="tuesday" lessonarray=tuesday}}
+          {{> lessons parent=this dayconst="tuesday" lessonarray=tuesday}}
         </td>
         <td>
-          {{> cell parent=this dayconst="wednesday" lessonarray=wednesday}}
+          {{> lessons parent=this dayconst="wednesday" lessonarray=wednesday}}
         </td>
         <td>
-          {{> cell parent=this dayconst="thursday" lessonarray=thursday}}
+          {{> lessons parent=this dayconst="thursday" lessonarray=thursday}}
         </td>
         <td>
-          {{> cell parent=this dayconst="friday" lessonarray=friday}}
+          {{> lessons parent=this dayconst="friday" lessonarray=friday}}
         </td>
       </tr>
      {{/each}}

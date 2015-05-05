@@ -1,0 +1,105 @@
+<template name="assignment">
+  <div class="well">
+
+    <div class="row">
+
+      <div class="col-sm-12">
+
+        <div class="row">
+
+          <!-- Courses -->
+
+          <div class="col-sm-4">
+
+            <div class="page-header">
+              <h4>Course <small>Selection</small></h4>
+            </div>
+
+            <div class="well well-sm">
+              <form>
+                {{#each courses}}
+                  <div>
+                    <label>
+                      <input type="radio" name="courses" class="js-courses" value="{{_id}}"> {{course}}
+                      <span class="badge js-badge">{{courseStudentCount _id}}</span>
+                    </label>
+                  </div>
+                {{/each}}
+              </form>
+            </div>
+
+          </div>
+
+          <!-- Students -->
+
+          <div class="col-sm-4">
+
+            <div class="page-header">
+              <h4>Student <small>Selection</small></h4>
+            </div>
+
+            <div class="well well-sm">
+              {{#if courseSelected}}
+
+                {{#each students}}
+                  <div>
+                    <label>
+                      <input type="checkbox" class="js-students" value={{number}} checked={{studentChecked number}}> {{student}}, {{number}}
+                    </label>
+                  </div>
+                {{/each}}
+
+              {{else}}
+                <p>Select a course on the left first!</p>
+                <p>Then select students in order to get them assigned to the selected course!</p>
+              {{/if}}
+            </div>
+
+          </div>
+
+          <!-- Options -->
+
+          <div class="col-sm-4">
+
+            <div class="page-header">
+              <h4>Option <small>Menu</small></h4>
+            </div>
+
+              {{#if courseSelected}}
+                <div class="well well-sm">
+
+                <div>
+                  <label>
+                    <input type="checkbox" class="js-student-sort"> Sort Students by Number
+                  </label>
+                </div>
+
+                <div class="btn-group">
+                  <input type="text" class="form-control js-save-class" placeholder="Store Student Selection">
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span> Apply Student Selection
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    {{#each classes}}
+                    <li><a class="js-load-class"><a class="js-remove-class">x</a>{{class}}
+                    <span class="badge js-badge">{{classStudentCount _id}}</span></a></li>
+                    {{/each}}
+                  </ul>
+                </div>
+
+              </div>
+            {{/if}}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</template>

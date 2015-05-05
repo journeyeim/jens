@@ -1,4 +1,4 @@
-<template name="cell">
+<template name="lessons">
 
     {{#unless equals da dayconst le ../lesson}}
       {{#each lessonarray}}
@@ -7,7 +7,7 @@
       {{/each}}
     {{else}}
       {{#each lessonarray}}
-        <div class="js-lesson">
+        <div class="js-lesson" draggable="true">
           <a class="js-remove-lesson" data-day={{da}} data-id={{../../_id}} >x</a>
           {{this.course}} {{this.room}} {{this.teacher}}
         </div>
@@ -19,7 +19,7 @@
           No Conflict
         {{/if}}
       </div>
-      {{> addLesson parent=this day=da}}
+      {{> lesson parent=this day=da}}
     {{/unless}}
 
 </template>

@@ -1,44 +1,50 @@
 Controller('schedules', {
   rendered: function() {
-    // Stuff to do on rendered.
-    Session.set("selected", null);
+    Session.set("weekSelected", null);
   },
   helpers: {
-    weeks: function () {
-      return Weeks.find( {}, { sort: { week: 1 } } );
+
+    /* schedule */
+
+    schedules: function () {
+      return Schedules.find( {}, { sort: { schedule: 1 } } );
     },
-    selected: function () {
-      return Session.get("selected");
+    scheduleSelected: function () {
+      return Session.get("scheduleSelected");
     }
   },
   events: {
-    "keyup .js-add-week": function (e) {
+
+    /* schedule */
+
+    "click .js-schedules": function (e) {
+
+      var value = e.target.value;
+
+      Meteor.defer(function() {
+        Session.set("scheduleSelected", value);
+      });
+    },
+    "keyup .js-add-schedule": function (e) {
       e.preventDefault();
 
-      if(e.keyCode == 13 && e.target.value) {
-        Weeks.insert({ week: e.target.value, actions: [] });
-        /* update - upsert by method */
+      var name = e.target.value;
+
+      if(e.keyCode == 13 && name && Schedules.find( { schedule: name } ).count() === 0) {
+
+        Meteor.call("scheduleAdding", name);
+
         e.target.value = "";
       }
     },
-    "click .js-remove-week": function (e) {
+    "click .js-remove-schedule": function (e) {
       e.preventDefault();
 
-      Weeks.remove(this._id);
+      Meteor.call("scheduleRemoving", this._id);
 
-      if(Session.get("selected") === this._id) {
-        Session.set("selected", null);
+      if(Session.get("scheduleSelected") === this._id) {
+        Session.set("scheduleSelected", null);
       }
-    },
-    "click .js-weeks": function (e) {
-      e.preventDefault();
-
-      Meteor.defer(function() {
-
-        var selected = $(".js-weeks label.active input").attr("id");
-
-        Session.set("selected", selected);
-      });
     }
   }
 });

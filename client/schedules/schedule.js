@@ -1,4 +1,4 @@
-Controller('week', {
+Controller('schedule', {
   helpers: {
     lessons: function () {
       return Lessons.find( {}, { sort: { lesson: 1 } } );

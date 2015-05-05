@@ -1,6 +1,5 @@
-Controller('cas', {
+Controller('assignment', {
   rendered: function() {
-    // Stuff to do on rendered.
     Session.set("courseSelected", null);
     Session.set("sortByNumber", null);
   },
@@ -14,6 +13,10 @@ Controller('cas', {
     courseSelected: function () {
       return Session.get("courseSelected");
     },
+    courseStudentCount: function ( id ) {
+
+      return Courses.findOne( { _id: id } ).students.length;
+    },
 
     /* students */
 
@@ -21,10 +24,6 @@ Controller('cas', {
       var query = Session.get("sortByNumber") ? { number: 1 } : { student: 1 };
 
       return Students.find( {}, { sort: query } );
-    },
-    studentCount: function ( id ) {
-
-      return Courses.findOne( { _id: id } ).students.length;
     },
     studentChecked: function ( number ) {
 
@@ -47,7 +46,11 @@ Controller('cas', {
 
     classes: function () {
       return Classes.find( {}, { sort: { class: 1 } } );
-    }
+    },
+    classStudentCount: function ( id ) {
+
+      return Classes.findOne( { _id: id } ).students.length;
+    },
   },
   events: {
 

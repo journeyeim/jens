@@ -1,9 +1,8 @@
-Controller('addLesson', {
+Controller('lesson', {
   rendered: function() {
-    // Stuff to do on rendered.
-      Session.set("jsChooseCourse", "Course");
-      Session.set("jsChooseRoom", "Room");
-      Session.set("jsChooseTeacher", "Teacher");
+    Session.set("jsChooseCourse", "Course");
+    Session.set("jsChooseRoom", "Room");
+    Session.set("jsChooseTeacher", "Teacher");
   },
   helpers: {
 

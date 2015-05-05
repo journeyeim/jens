@@ -1,10 +1,8 @@
-Controller('cell', {
+Controller('lessons', {
   created: function() {
-    // Stuff to do on created.
     this.notification = new ReactiveVar(null);
   },
   rendered: function() {
-    // Stuff to do on rendered.
     isConflict(this);
   },
   helpers: {

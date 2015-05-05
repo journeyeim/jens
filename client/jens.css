@@ -21,6 +21,7 @@ input[type="radio"], input[type="checkbox"]{
 label {
   cursor: pointer;
   font-weight: normal;
+  width: 100%;
 }
 
 td:hover {
@@ -46,37 +47,19 @@ a:link, a:visited, a:hover, a:active {
   padding: 0px 8px;
   margin: 3px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 4px;
   background: white;
   word-wrap: break-word;
   overflow: hidden;
+  cursor: move;
 }
 
 .js-add-lesson {
   margin: 3px;
 }
 
-.js-courses-badge {
+.js-badge {
   vertical-align: 1px;
-}
-
-.js-weeks {
-  margin-bottom: 40px;
-}
-
-.js-week {
-  text-align: left;
-  padding: 10px 15px;
-}
-
-.js-add-week {
-  margin-bottom: 40px;
-}
-
-.js-remove-week {
-  color: white;
-  float: right;
-  cursor: pointer;
 }
 
 .js-remove-course,
@@ -86,6 +69,15 @@ a:link, a:visited, a:hover, a:active {
 .js-remove-class,
 .js-remove-lesson {
   float: right;
+  cursor: pointer;
+}
+
+.js-remove-class {
+  margin-left: 20px;
+}
+
+.js-remove-schedule,
+.js-load-class {
   cursor: pointer;
 }
 
@@ -104,7 +96,7 @@ a:link, a:visited, a:hover, a:active {
 .js-btn {
   text-align: left;
   width: 100%;
-  border-radius: 8px !important;
+  border-radius: 4px !important;
 }
 
 /* bootstrap overrides */
@@ -115,7 +107,7 @@ a:link, a:visited, a:hover, a:active {
 
 .btn-group {
   width: 100%;
-  padding-right: 3px;
+  /*padding-right: 3px;*/
 }
 
 .list-group-item {
