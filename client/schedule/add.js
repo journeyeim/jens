@@ -1,4 +1,4 @@
-Controller('lesson', {
+Controller('add', {
   rendered: function() {
     Session.set("jsChooseCourse", "Course");
     Session.set("jsChooseRoom", "Room");

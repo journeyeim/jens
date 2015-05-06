@@ -3,7 +3,8 @@ Controller('lessons', {
     this.notification = new ReactiveVar(null);
   },
   rendered: function() {
-    isConflict(this);
+    //console.log(this);
+    //isConflict(this, "rendered");
   },
   helpers: {
     le: function () {
@@ -28,7 +29,7 @@ Controller('lessons', {
   events: {
     "click": function (e, t) {
       Meteor.defer(function() {
-        isConflict(t);
+        //isConflict(t, "clicked");
       });
     },
     "click .js-remove-lesson": function (e) {
@@ -47,16 +48,18 @@ Controller('lessons', {
   }
 });
 
-var isConflict = function (t) {
+var isConflict = function (t, inf) {
 
-  t.data.parent.lesson
+  console.log(t.data.parent._id, t.data);
 
+  var id = Session.get("scheduleSelected");
   var query = {};
 
   query[t.data.dayconst] = 1;
 
-  var dayA = Lessons.find({ _id: t.data.parent._id }, { fields: query }).fetch();
-  var lesA = dayA[0][t.data.dayconst];
+  var dayArr = Schedules.findOne({ _id: id });
+  console.log("dayArr", dayArr);
+  var lesArr = dayArr[0][t.data.dayconst];
 
   var co = [];
   var ro = [];
@@ -64,24 +67,24 @@ var isConflict = function (t) {
 
   var note = [];
 
-  for(var i = 0; i < lesA.length; i++){
+  for(var i = 0; i < lesArr.length; i++){
 
-    if($.inArray(lesA[i].course, co) === -1){
-      co.push(lesA[i].course);
+    if($.inArray(lesArr[i].course, co) === -1){
+      co.push(lesArr[i].course);
     } else {
-      note.push("Conflict on " + lesA[i].course);
+      note.push("Conflict on " + lesArr[i].course);
     }
 
-    if($.inArray(lesA[i].room, ro) === -1){
-      ro.push(lesA[i].room);
+    if($.inArray(lesArr[i].room, ro) === -1){
+      ro.push(lesArr[i].room);
     } else {
-      note.push("Conflict on " + lesA[i].room);
+      note.push("Conflict on " + lesArr[i].room);
     }
 
-    if($.inArray(lesA[i].teacher, te) === -1){
-      te.push(lesA[i].teacher);
+    if($.inArray(lesArr[i].teacher, te) === -1){
+      te.push(lesArr[i].teacher);
     } else {
-      note.push("Conflict on " + lesA[i].teacher);
+      note.push("Conflict on " + lesArr[i].teacher);
     }
   }
 

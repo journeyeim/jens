@@ -1,48 +1,37 @@
 <template name="schedules">
 
-  {{#if scheduleSelected}}
-    {{> schedule}}
-  {{/if}}
-
   <div class="well">
 
     <div class="row">
 
       <div class="col-sm-12">
 
-        <div class="row">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
-          <!-- schedule -->
+          <div class="btn-group">
+            <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="caret"></span> {{scheduleSelectedName}}
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              {{#each schedules}}
+                <li><a class="js-select-schedule">{{schedule}}</a></li>
+              {{/each}}
+            </ul>
+          </div>
 
-          <div class="col-sm-3">
+          <div class="btn-group">
+            <input type="text" class="form-control js-add-schedule" placeholder="Add New Schedule">
+          </div>
 
-            <div class="page-header">
-              <h4>Schedule <small>Selection</small></h4>
-            </div>
-
-            <div class="well well-sm">
-              <form>
-                {{#each schedules}}
-                    <label>
-                      <input type="radio" name="schedules" class="js-select-schedule" value="{{_id}}"> {{schedule}}
-                    </label>
-                {{/each}}
-              </form>
-            </div>
-
-            <input type="text" class="form-control js-add-schedule" placeholder="Add Schedule">
-
-            <div class="btn-group">
-              <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <span class="caret"></span> Remove Schedule
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                {{#each schedules}}
+          <div class="btn-group">
+            <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="caret"></span> Remove Schedule
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              {{#each schedules}}
                 <li><a class="js-remove-schedule">{{schedule}}</a></li>
-                {{/each}}
-              </ul>
-            </div>
-
+              {{/each}}
+            </ul>
           </div>
 
         </div>
@@ -52,5 +41,9 @@
     </div>
 
   </div>
+
+  {{#if scheduleSelected}}
+    {{> rows}}
+  {{/if}}
 
 </template>

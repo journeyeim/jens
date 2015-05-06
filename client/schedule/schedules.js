@@ -1,5 +1,5 @@
 Controller('schedules', {
-  rendered: function() {
+  created: function() {
     Session.set("scheduleSelected", null);
   },
   helpers: {
@@ -11,6 +11,12 @@ Controller('schedules', {
     },
     scheduleSelected: function () {
       return Session.get("scheduleSelected");
+    },
+    scheduleSelectedName: function () {
+
+      var id = Session.get("scheduleSelected");
+
+      return id ? Schedules.findOne( { _id: id }).schedule : "Select Schedule";
     }
   },
   events: {
@@ -18,12 +24,9 @@ Controller('schedules', {
     /* schedule */
 
     "click .js-select-schedule": function (e) {
+      e.preventDefault();
 
-      var value = e.target.value;
-
-      Meteor.defer(function() {
-        Session.set("scheduleSelected", value);
-      });
+      Session.set("scheduleSelected", this._id);
     },
     "keyup .js-add-schedule": function (e) {
       e.preventDefault();

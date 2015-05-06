@@ -7,12 +7,6 @@ body {
   display: none;
 }
 
-table {
-  color: #555;
-  table-layout: fixed;
-  background: white;
-}
-
 input[type="radio"], input[type="checkbox"]{
   cursor: pointer;
   vertical-align:-2px;
@@ -25,7 +19,7 @@ label {
 }
 
 td:hover {
-  background: #f8f8f8;
+  background: #ddd;
 }
 
 th {
@@ -43,6 +37,18 @@ a:link, a:visited, a:hover, a:active {
   float: right;
 }
 
+.js-table {
+  color: #5f5f5f;
+  border: 1px solid #e3e3e3;
+  background: #f5f5f5;
+  table-layout: fixed;
+  border-radius: 4px;
+}
+
+.js-headers:first-child {
+  width: 40px;
+}
+
 .js-lesson {
   padding: 0px 8px;
   margin: 3px;
@@ -52,10 +58,6 @@ a:link, a:visited, a:hover, a:active {
   word-wrap: break-word;
   overflow: hidden;
   cursor: move;
-}
-
-.js-add-lesson {
-  margin: 3px;
 }
 
 .js-badge {
@@ -87,10 +89,6 @@ a:link, a:visited, a:hover, a:active {
 
 .js-no-conflict {
   color: green;
-}
-
-.js-headers:first-child {
-  width: 40px;
 }
 
 .js-btn {

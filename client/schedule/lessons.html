@@ -1,25 +1,8 @@
 <template name="lessons">
 
-    {{#unless equals da dayconst le ../lesson}}
-      {{#each lessonarray}}
-        <div class="js-lesson">{{this.course}} {{this.room}} {{this.teacher}}
-        </div>
-      {{/each}}
-    {{else}}
-      {{#each lessonarray}}
-        <div class="js-lesson" draggable="true">
-          <a class="js-remove-lesson" data-day={{da}} data-id={{../../_id}} >x</a>
-          {{this.course}} {{this.room}} {{this.teacher}}
-        </div>
-      {{/each}}
-      <div class={{notificationClass}}>
-        {{#if notification}}
-          {{{notification}}}
-        {{else}}
-          No Conflict
-        {{/if}}
+    {{#each lessonarray}}
+      <div class="js-lesson" draggable="true">{{this.course}} {{this.room}} {{this.teacher}}
       </div>
-      {{> lesson parent=this day=da}}
-    {{/unless}}
+    {{/each}}
 
 </template>
