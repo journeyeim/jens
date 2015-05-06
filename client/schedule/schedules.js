@@ -1,6 +1,6 @@
 Controller('schedules', {
   rendered: function() {
-    Session.set("weekSelected", null);
+    Session.set("scheduleSelected", null);
   },
   helpers: {
 
@@ -17,7 +17,7 @@ Controller('schedules', {
 
     /* schedule */
 
-    "click .js-schedules": function (e) {
+    "click .js-select-schedule": function (e) {
 
       var value = e.target.value;
 

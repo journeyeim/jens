@@ -1,9 +1,13 @@
-<template name="assignment">
+<template name="enrollment">
   <div class="well">
 
     <div class="row">
 
       <div class="col-sm-12">
+
+        <div class="page-header">
+          <h4>Enrollment</h4>
+        </div>
 
         <div class="row">
 
@@ -20,7 +24,7 @@
                 {{#each courses}}
                   <div>
                     <label>
-                      <input type="radio" name="courses" class="js-courses" value="{{_id}}"> {{course}}
+                      <input type="radio" name="courses" class="js-select-course" value="{{_id}}"> {{course}}
                       <span class="badge js-badge">{{courseStudentCount _id}}</span>
                     </label>
                   </div>
@@ -44,14 +48,14 @@
                 {{#each students}}
                   <div>
                     <label>
-                      <input type="checkbox" class="js-students" value={{number}} checked={{studentChecked number}}> {{student}}, {{number}}
+                      <input type="checkbox" class="js-select-student" value={{number}} checked={{studentChecked number}}> {{student}}, {{number}}
                     </label>
                   </div>
                 {{/each}}
 
               {{else}}
                 <p>Select a course on the left first!</p>
-                <p>Then select students in order to get them assigned to the selected course!</p>
+                <p>Then select students in order to get them enrolled in the selected course!</p>
               {{/if}}
             </div>
 
@@ -70,7 +74,7 @@
 
                 <div>
                   <label>
-                    <input type="checkbox" class="js-student-sort"> Sort Students by Number
+                    <input type="checkbox" class="js-sort-student"> Sort Students by Number
                   </label>
                 </div>
 

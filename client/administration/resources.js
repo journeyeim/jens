@@ -1,4 +1,4 @@
-Controller('lists', {
+Controller('resources', {
   helpers: {
     courses: function () {
       return Courses.find( {}, { sort: { course: 1 } } );

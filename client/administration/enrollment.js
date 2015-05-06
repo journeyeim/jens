@@ -1,11 +1,11 @@
-Controller('assignment', {
+Controller('enrollment', {
   rendered: function() {
     Session.set("courseSelected", null);
     Session.set("sortByNumber", null);
   },
   helpers: {
 
-    /* courses */
+    /* course */
 
     courses: function () {
       return Courses.find( {}, { sort: { course: 1 } } );
@@ -18,7 +18,7 @@ Controller('assignment', {
       return Courses.findOne( { _id: id } ).students.length;
     },
 
-    /* students */
+    /* student */
 
     students: function () {
       var query = Session.get("sortByNumber") ? { number: 1 } : { student: 1 };
@@ -42,7 +42,7 @@ Controller('assignment', {
       return checked;
     },
 
-    /* classes */
+    /* class */
 
     classes: function () {
       return Classes.find( {}, { sort: { class: 1 } } );
@@ -56,7 +56,7 @@ Controller('assignment', {
 
     /* course */
 
-    "click .js-courses": function (e) {
+    "click .js-select-course": function (e) {
 
       var value = e.target.value;
 
@@ -67,11 +67,7 @@ Controller('assignment', {
 
     /* student */
 
-    "change .js-student-sort": function (e) {
-
-      Session.set("sortByNumber", e.target.checked);
-    },
-    "change .js-students": function (e) {
+    "change .js-select-student": function (e) {
 
       var query = {};
 
@@ -79,8 +75,12 @@ Controller('assignment', {
 
       Meteor.call("courseStudentAssignment", Session.get("courseSelected"), query);
     },
+    "change .js-sort-student": function (e) {
 
-    /* classes */
+      Session.set("sortByNumber", e.target.checked);
+    },
+
+    /* class */
 
     "keyup .js-save-class": function (e) {
       e.preventDefault();
