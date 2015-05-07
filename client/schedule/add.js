@@ -1,9 +1,4 @@
 Controller('add', {
-  rendered: function() {
-    Session.set("jsChooseCourse", "Course");
-    Session.set("jsChooseRoom", "Room");
-    Session.set("jsChooseTeacher", "Teacher");
-  },
   helpers: {
 
     /* course */
@@ -11,17 +6,11 @@ Controller('add', {
     courses: function () {
       return Courses.find( {}, { sort: { course: 1 } } );
     },
-    jsChooseCourse: function () {
-      return Session.get("jsChooseCourse");
-    },
 
     /* room */
 
     rooms: function () {
       return Rooms.find( {}, { sort: { room: 1 } } );
-    },
-    jsChooseRoom: function () {
-      return Session.get("jsChooseRoom");
     },
 
     /* techer */
@@ -29,50 +18,71 @@ Controller('add', {
     teachers: function () {
       return Teachers.find( {}, { sort: { teacher: 1 } } );
     },
-    jsChooseTeacher: function () {
-      return Session.get("jsChooseTeacher");
+
+    /* lesson */
+
+    lessons: function () {
+
+      var ins = Template.instance().data;
+      var row = Rows.findOne( { schedule: ins.schedule, lesson: ins.lesson} );
+
+      return row ? row[ins.day] : [];
     }
   },
   events: {
 
-    /* choose resources */
+    /* lesson */
 
-    "click .js-choose-course": function (e) {
+    "click .js-add-lesson": function (e, t) {
       e.preventDefault();
 
-      Session.set("jsChooseCourse", e.target.text);
-    },
-    "click .js-choose-room": function (e) {
-      e.preventDefault();
+      var course = $('input[name=courses]:checked').val();
 
-      Session.set("jsChooseRoom", e.target.text);
-    },
-    "click .js-choose-teacher": function (e) {
-      e.preventDefault();
+      var roomCheckboxes = $(".js-select-room");
+      var rooms = [];
 
-      Session.set("jsChooseTeacher", e.target.text);
-    },
+      for(var i = 0; i < roomCheckboxes.length; i++) {
+        if(roomCheckboxes[i].checked) {
+          rooms.push(roomCheckboxes[i].value);
+        }
+      }
 
-    /* add lesson */
+      var teacherCheckboxes = $(".js-select-teacher");
+      var teachers = [];
 
-    "click .js-add-lesson-btn": function (e) {
-      e.preventDefault();
-
-      var c = Session.get("jsChooseCourse");
-      var r = Session.get("jsChooseRoom");
-      var t = Session.get("jsChooseTeacher");
+      for(var i = 0; i < teacherCheckboxes.length; i++) {
+        if(teacherCheckboxes[i].checked) {
+          teachers.push(teacherCheckboxes[i].value);
+        }
+      }
 
       var query = {};
 
       query[this.day] = {
-        "course": c,
-        "room": r,
-        "teacher": t
+        "course": course,
+        "room": rooms,
+        "teacher": teachers
       };
 
-      if(c !== "Course" && r !== "Room" && t !== "Teacher") {
-        Lessons.update( { "_id": this.parent.parent._id }, { "$push": query } );
+      if(course && rooms.length > 0 && teachers.length > 0) {
+
+        Meteor.call("lessonAdding", t.data.schedule, t.data.lesson, query);
+
+        $("#addLessonModal").modal('hide');
       }
+    },
+    "click .js-remove-lesson": function (e, t) {
+      e.preventDefault();
+
+      var query = {};
+
+      query[t.data.day] = {
+        "course": this.course,
+        "room": this.room,
+        "teacher": this.teacher
+      };
+
+      Meteor.call("lessonRemoving", t.data.schedule, t.data.lesson, query);
     }
   }
 });

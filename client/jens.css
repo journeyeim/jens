@@ -97,15 +97,14 @@ a:link, a:visited, a:hover, a:active {
   border-radius: 4px !important;
 }
 
+.js-full-width {
+  width: 100%;
+}
+
 /* bootstrap overrides */
 
 .page-header {
   text-align: center;
-}
-
-.btn-group {
-  width: 100%;
-  /*padding-right: 3px;*/
 }
 
 .list-group-item {

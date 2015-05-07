@@ -87,7 +87,7 @@ Controller('enrollment', {
 
       if(e.keyCode == 13 && e.target.value) {
 
-        var checkboxes = $(".js-students");
+        var checkboxes = $(".js-select-student");
         var students = [];
 
         for(var i = 0; i < checkboxes.length; i++) {
@@ -105,7 +105,7 @@ Controller('enrollment', {
       e.preventDefault();
 
       var students = this.students;
-      var checkboxes = $(".js-students");
+      var checkboxes = $(".js-select-student");
 
       for(var i = 0; i < checkboxes.length; i++) {
 

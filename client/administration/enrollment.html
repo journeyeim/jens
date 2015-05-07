@@ -78,18 +78,18 @@
                   </label>
                 </div>
 
-                <div class="btn-group">
+                <div class="btn-group js-full-width">
                   <input type="text" class="form-control js-save-class" placeholder="Store Student Selection">
                 </div>
 
-                <div class="btn-group">
+                <div class="btn-group js-full-width">
                   <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="caret"></span> Apply Student Selection
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     {{#each classes}}
-                    <li><a class="js-load-class"><a class="js-remove-class">x</a>{{class}}
-                    <span class="badge js-badge">{{classStudentCount _id}}</span></a></li>
+                      <li><a class="js-load-class"><a class="js-remove-class">x</a>{{class}}
+                      <span class="badge js-badge">{{classStudentCount _id}}</span></a></li>
                     {{/each}}
                   </ul>
                 </div>
