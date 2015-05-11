@@ -16,3 +16,4 @@ themeteorchef:controller
 reactive-var
 sanjo:jasmine
 velocity:html-reporter
+mrt:jquery-ui

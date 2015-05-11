@@ -18,10 +18,6 @@ label {
   width: 100%;
 }
 
-td:hover {
-  background: #ddd;
-}
-
 th {
   text-align: center;
 }
@@ -47,6 +43,10 @@ a:link, a:visited, a:hover, a:active {
 
 .js-headers:first-child {
   width: 40px;
+}
+
+.js-draggable-hover {
+  background: #eee;
 }
 
 .js-lesson {

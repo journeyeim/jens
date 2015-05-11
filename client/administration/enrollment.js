@@ -50,7 +50,7 @@ Controller('enrollment', {
     classStudentCount: function ( id ) {
 
       return Classes.findOne( { _id: id } ).students.length;
-    },
+    }
   },
   events: {
 

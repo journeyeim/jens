@@ -2,14 +2,21 @@ Controller('rows', {
   created: function() {
     this.schedule = new ReactiveVar(null);
     this.day = new ReactiveVar(null);
-    this.lesson = new ReactiveVar(null);
+    this.lessonnr = new ReactiveVar(null);
+  },
+  rendered: function() {
+    registerDroppable(this);
   },
   helpers: {
     rows: function () {
-      return Rows.find( { schedule: Schedules.findOne( { _id: Session.get("scheduleSelected") } ).schedule }, { sort: { lesson: 1 } } );
+      return Rows.find( { schedule: Schedules.findOne( { _id: Session.get("scheduleSelected") } ).schedule }, { sort: { lessonnr: 1 } } );
     },
-    headers: function () {
-      return headers;
+    days: function () {
+      return ["Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"];
     },
     modalSchedule: function () {
       return Template.instance().schedule.get();
@@ -17,28 +24,71 @@ Controller('rows', {
     modalDay: function () {
       return Template.instance().day.get();
     },
-    modalLesson: function () {
-      return Template.instance().lesson.get();
+    modalLessonnr: function () {
+      return Template.instance().lessonnr.get();
     }
   },
   events: {
-    "click td": function (e, t) {
+    "dblclick td": function (e, t) {
       e.preventDefault();
+      e.stopPropagation();
 
-      t.schedule.set(this.schedule);
-      t.day.set(headers[e.currentTarget.cellIndex].toLowerCase());
-      t.lesson.set(this.lesson);
+      t.schedule.set(e.currentTarget.dataset.schedule);
+      t.day.set(e.currentTarget.dataset.day);
+      t.lessonnr.set(e.currentTarget.dataset.lessonnr);
 
       $("#addLessonModal").modal('show');
+    },
+
+    /* workaround for :hover bug in webkit part 1/2 */
+    "mouseover td": function (e) {
+      e.currentTarget.className = "js-draggable-hover";
+    },
+    "mouseout td": function (e) {
+      e.currentTarget.className = "";
     }
   }
 });
 
-var headers = [
-  "#",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-];
+var registerDroppable = function (template) {
+
+  $(template.findAll('td')).each(function(index, element) {
+
+    $(element).droppable({
+      accept: ".js-lesson",
+      addClasses: false,
+      hoverClass: ".js-draggable-hover",
+      drop: function (e, ui) {
+
+        console.log("droppable drop");
+
+        var target = e.target.dataset;
+        var source = ui.draggable[0].dataset;
+
+        var lesson = {
+          "course": source.course,
+          "room": source.room,
+          "teacher": source.teacher
+        };
+
+        if(target.lessonnr !== source.lessonnr || target.day !== source.day) {
+
+          var pushQuery = {};
+          pushQuery[target.day] = lesson;
+          Meteor.call("lessonAdding", target.schedule, target.lessonnr, pushQuery);
+
+          if(! e.ctrlKey) {
+            var pullQuery = {};
+            pullQuery[source.day] = lesson;
+            Meteor.call("lessonRemoving", target.schedule, source.lessonnr, pullQuery);
+          }
+        }
+
+        /* workaround for :hover bug in webkit part 2/2 */
+        $('td').each(function(index, element) {
+          element.className = "";
+        });
+      }
+    });
+  });
+}

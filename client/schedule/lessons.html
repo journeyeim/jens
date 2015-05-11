@@ -1,8 +1,16 @@
 <template name="lessons">
 
-    {{#each lessonarray}}
-      <div class="js-lesson" draggable="true">{{this.course}} {{this.room}} {{this.teacher}}
+  <td data-schedule="{{schedule}}" data-lessonnr="{{lessonnr}}" data-day={{day}}>
+    {{#each regDraggable lessongrp}}
+      <div class="js-lesson"
+        data-lessonnr="{{../lessonnr}}"
+        data-day="{{../day}}"
+        data-course="{{this.course}}"
+        data-room="{{this.room}}"
+        data-teacher="{{this.teacher}}">
+        {{this.course}} {{this.room}} {{this.teacher}}
       </div>
     {{/each}}
+  </td>
 
 </template>

@@ -24,8 +24,9 @@ Controller('add', {
     lessons: function () {
 
       var ins = Template.instance().data;
-      var row = Rows.findOne( { schedule: ins.schedule, lesson: ins.lesson} );
+      var row = Rows.findOne( { schedule: ins.schedule, lessonnr: +ins.lessonnr} );
 
+      console.log("ins & row: ", ins, row);
       return row ? row[ins.day] : [];
     }
   },
@@ -66,7 +67,7 @@ Controller('add', {
 
       if(course && rooms.length > 0 && teachers.length > 0) {
 
-        Meteor.call("lessonAdding", t.data.schedule, t.data.lesson, query);
+        Meteor.call("lessonAdding", t.data.schedule, t.data.lessonnr, query);
 
         $("#addLessonModal").modal('hide');
       }
@@ -82,7 +83,9 @@ Controller('add', {
         "teacher": this.teacher
       };
 
-      Meteor.call("lessonRemoving", t.data.schedule, t.data.lesson, query);
+      Meteor.call("lessonRemoving", t.data.schedule, t.data.lessonnr, query);
+
+      $("#addLessonModal").modal('hide');
     }
   }
 });
