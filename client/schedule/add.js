@@ -26,8 +26,14 @@ Controller('add', {
       var ins = Template.instance().data;
       var row = Rows.findOne( { schedule: ins.schedule, lessonnr: +ins.lessonnr} );
 
-      console.log("ins & row: ", ins, row);
       return row ? row[ins.day] : [];
+    },
+
+    /* misc */
+
+    capitalize: function (str) {
+
+      return str && str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
   },
   events: {

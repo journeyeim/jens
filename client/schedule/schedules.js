@@ -1,7 +1,4 @@
 Controller('schedules', {
-  created: function() {
-    Session.set("scheduleSelected", null);
-  },
   helpers: {
 
     /* schedule */
@@ -10,11 +7,15 @@ Controller('schedules', {
       return Schedules.find( {}, { sort: { schedule: 1 } } );
     },
     scheduleSelected: function () {
-      return Session.get("scheduleSelected");
+
+      var option = Options.findOne( { key: "schedule" } )
+
+      return option && option.value;
     },
     scheduleSelectedName: function () {
 
-      var id = Session.get("scheduleSelected");
+      var option = Options.findOne( { key: "schedule" } )
+      var id = option && option.value;
 
       return id ? Schedules.findOne( { _id: id }).schedule : "Select Schedule";
     }
@@ -26,7 +27,7 @@ Controller('schedules', {
     "click .js-select-schedule": function (e) {
       e.preventDefault();
 
-      Session.set("scheduleSelected", this._id);
+      Meteor.call("optionSet", "schedule", this._id );
     },
     "keyup .js-add-schedule": function (e) {
       e.preventDefault();
@@ -44,10 +45,6 @@ Controller('schedules', {
       e.preventDefault();
 
       Meteor.call("scheduleRemoving", this._id);
-
-      if(Session.get("scheduleSelected") === this._id) {
-        Session.set("scheduleSelected", null);
-      }
     }
   }
 });

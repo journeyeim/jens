@@ -9,7 +9,11 @@ Controller('rows', {
   },
   helpers: {
     rows: function () {
-      return Rows.find( { schedule: Schedules.findOne( { _id: Session.get("scheduleSelected") } ).schedule }, { sort: { lessonnr: 1 } } );
+
+      var id = Options.findOne( { key: "schedule" } ).value;
+      var name = Schedules.findOne( { _id: id }).schedule;
+
+      return Rows.find( { schedule: name }, { sort: { lessonnr: 1 } } );
     },
     days: function () {
       return ["Monday",
