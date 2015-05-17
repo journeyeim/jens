@@ -26,11 +26,7 @@ var registerDraggable = function (template) {
       containment: '.js-table',
       distance: 10,
       helper: 'clone',
-      opacity: 0.8,
-      start: function (e, ui) {
-
-        console.log("draggable start");
-      }
+      opacity: 0.8
     });
   });
 }

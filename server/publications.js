@@ -1,31 +1,47 @@
 Meteor.publish("courses", function () {
-  return Courses.find();
+  if(this.userId) {
+    return Courses.find();
+  }
 });
 
 Meteor.publish("rooms", function () {
-  return Rooms.find();
+  if(this.userId) {
+    return Rooms.find();
+  }
 });
 
 Meteor.publish("teachers", function () {
-  return Teachers.find();
+  if(this.userId) {
+    return Teachers.find();
+  }
 });
 
 Meteor.publish("students", function () {
-  return Students.find();
+  if(this.userId) {
+    return Students.find();
+  }
 });
 
 Meteor.publish("classes", function () {
-  return Classes.find();
+  if(this.userId) {
+    return Classes.find();
+  }
 });
 
 Meteor.publish("schedules", function () {
-  return Schedules.find();
+  if(this.userId) {
+    return Schedules.find();
+  }
 });
 
 Meteor.publish("rows", function () {
-  return Rows.find();
+  if(this.userId) {
+    return Rows.find();
+  }
 });
 
 Meteor.publish("options", function () {
-  return Options.find();
+  if(this.userId) {
+    return Options.find();
+  }
 });

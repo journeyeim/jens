@@ -64,8 +64,6 @@ var registerDroppable = function (template) {
       hoverClass: ".js-draggable-hover",
       drop: function (e, ui) {
 
-        console.log("droppable drop");
-
         var target = e.target.dataset;
         var source = ui.draggable[0].dataset;
 
