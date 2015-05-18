@@ -84,11 +84,11 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .js-conflict {
-  color: red;
+  background: #faa;
 }
 
-.js-no-conflict {
-  color: green;
+.js-conflict-text {
+  color: black;
 }
 
 .js-btn {

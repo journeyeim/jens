@@ -5,4 +5,5 @@ Students = new Mongo.Collection("students");
 Classes = new Mongo.Collection("classes");
 Schedules = new Mongo.Collection("schedules");
 Rows = new Mongo.Collection("rows");
+Columns = new Mongo.Collection("columns");
 Options = new Mongo.Collection("options");

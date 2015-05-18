@@ -7,9 +7,9 @@ Meteor.methods({
       Courses.update( { _id: id }, query );
     }
   },
-  courseAdding: function (name) {
+  courseAdding: function (course) {
     if(Meteor.userId()) {
-      Courses.insert( { course: name, students: [] } );
+      Courses.insert( { course: course, students: [] } );
     }
   },
   courseRemoving: function (id) {
@@ -20,9 +20,9 @@ Meteor.methods({
 
   /* room */
 
-  roomAdding: function (name) {
+  roomAdding: function (room) {
     if(Meteor.userId()) {
-      Rooms.insert( { room: name } );
+      Rooms.insert( { room: room } );
     }
   },
   roomRemoving: function (id) {
@@ -33,9 +33,9 @@ Meteor.methods({
 
   /* teacher */
 
-  teacherAdding: function (name) {
+  teacherAdding: function (teacher) {
     if(Meteor.userId()) {
-      Teachers.insert( { teacher: name } );
+      Teachers.insert( { teacher: teacher } );
     }
   },
   teacherRemoving: function (id) {
@@ -46,9 +46,9 @@ Meteor.methods({
 
   /* student */
 
-  studentAdding: function (name, number) {
+  studentAdding: function (student, number) {
     if(Meteor.userId()) {
-      Students.insert( { student: name, number: number } );
+      Students.insert( { student: student, number: number } );
     }
   },
   studentRemoving: function (id, number) {
@@ -85,43 +85,81 @@ Meteor.methods({
 
   /* schedule */
 
-  scheduleAdding: function (name) {
-
+  scheduleAdding: function (schedule) {
     if(Meteor.userId()) {
-      Schedules.insert( { schedule: name }, function (err, id) {
+
+      Schedules.insert( { schedule: schedule }, function (err, id) {
         if(! err) {
           Meteor.call("optionSet", "schedule", id);
         }
       });
 
-      for(var i = 1; i<16; i++) {
-        Rows.insert( { schedule: name, lessonnr: i, monday: [], tuesday: [], wednesday: [], thursday: [], friday: [] } );
+      var days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ];
+
+      for(var rowIdx = 1; rowIdx <= 15; rowIdx++) {
+
+        Rows.insert( {
+          schedule: schedule,
+          lessonnr: rowIdx
+        } );
+
+        for(var columnIdx = 1; columnIdx <= 5; columnIdx++) {
+
+          Columns.insert( {
+            schedule: schedule,
+            lessonnr: rowIdx,
+            daynr: columnIdx,
+            day: days[columnIdx - 1],
+            lessons: [],
+            conflict: ""
+          } );
+        }
       }
     }
   },
   scheduleRemoving: function (id) {
     if(Meteor.userId()) {
 
-      var schedule = Schedules.findOne( { _id: id} ).schedule;
-
       if(Options.findOne( { key: "schedule" } ).value === id) {
         Meteor.call("optionSet", "schedule", null);
       }
+
+      var schedule = Schedules.findOne( { _id: id } ).schedule;
+
+      Columns.remove( { schedule: schedule } );
       Rows.remove( { schedule: schedule } );
-      Schedules.remove( id );
+      Schedules.remove( { schedule: schedule } );
     }
   },
 
-  /* row */
+  /* row - lesson */
 
-  lessonAdding: function (schedule, lessonnr, query) {
+  lessonAdding: function (schedule, lessonnr, day, lesson) {
     if(Meteor.userId()) {
-      Rows.update( { schedule: schedule, lessonnr: +lessonnr }, { $push: query } );
+
+      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+        { $push: { lessons: lesson } } );
+
+      var lessons = Columns.findOne( { schedule: schedule, lessonnr: +lessonnr, day: day } ).lessons;
+
+      var conflict = getConflict(lessons);
+
+      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+        { $set: { conflict: conflict } } );
     }
   },
-  lessonRemoving: function (schedule, lessonnr, query) {
+  lessonRemoving: function (schedule, lessonnr, day, lesson) {
     if(Meteor.userId()) {
-      Rows.update( { schedule: schedule, lessonnr: +lessonnr }, { $pull: query } );
+
+      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+        { $pull: { lessons: lesson } } );
+
+      var lessons = Columns.findOne( { schedule: schedule, lessonnr: +lessonnr, day: day } ).lessons;
+
+      var conflict = getConflict(lessons);
+
+      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+        { $set: { conflict: conflict } } );
     }
   },
 
@@ -133,3 +171,50 @@ Meteor.methods({
     }
   }
 });
+
+Array.prototype.pushArray = function() {
+    var toPush = this.concat.apply([], arguments);
+    for (var i = 0, len = toPush.length; i < len; ++i) {
+        this.push(toPush[i]);
+    }
+};
+
+var getConflict = function (lessons) {
+
+  var courses = [];
+  var rooms = [];
+  var teachers = [];
+
+  for(var i = 0; i < lessons.length; i++) {
+    courses.push(lessons[i].course);
+    rooms.pushArray(lessons[i].room);
+    teachers.pushArray(lessons[i].teacher);
+  }
+
+  var duplicates = [];
+
+  duplicates.pushArray(getDuplicates(courses));
+  duplicates.pushArray(getDuplicates(rooms));
+  duplicates.pushArray(getDuplicates(teachers));
+
+  return duplicates.join(', ');
+}
+
+var getDuplicates = function (array) {
+
+  array.sort();
+
+  var duplicates = [];
+  var elementA = "";
+  var elementB = "";
+
+  for(var i = 0; i < array.length; i++) {
+   if(elementB !== elementA && elementA === array[i]) {
+     duplicates.push(array[i]);
+   }
+   elementB = elementA;
+   elementA = array[i];
+  }
+
+  return duplicates;
+}

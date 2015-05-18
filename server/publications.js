@@ -40,6 +40,12 @@ Meteor.publish("rows", function () {
   }
 });
 
+Meteor.publish("columns", function () {
+  if(this.userId) {
+    return Columns.find();
+  }
+});
+
 Meteor.publish("options", function () {
   if(this.userId) {
     return Options.find();

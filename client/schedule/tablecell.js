@@ -1,8 +1,8 @@
-Controller('lessons', {
+Controller('tablecell', {
   rendered: function() {
   },
   helpers: {
-    regDraggable: function (realParam) {
+    regDraggable: function (triggerOnly) {
 
       var template = Template.instance();
 
@@ -10,7 +10,15 @@ Controller('lessons', {
         registerDraggable(template);
       });
 
-      return realParam;
+      return triggerOnly;
+    },
+    conflictClass: function () {
+
+      return this.conflict ? "js-conflict" : "";
+    },
+    conflictText: function () {
+
+      return this.conflict;
     }
   },
   events: {

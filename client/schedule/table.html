@@ -1,0 +1,33 @@
+<template name="table">
+
+  <table class="table table-bordered js-table">
+
+   <thead>
+    <tr>
+     <th class="js-headers">#</th>
+      {{#each days}}
+       <th class="js-headers">{{this}}</th>
+      {{/each}}
+    </tr>
+   </thead>
+
+   <tbody>
+     {{#each rows}}
+      <tr>
+        <th>
+          {{lessonnr}}
+        </th>
+        {{#each columns schedule lessonnr}}
+          {{> tablecell schedule=schedule day=day lessonnr=lessonnr lessons=lessons conflict=conflict}}
+        {{/each}}
+      </tr>
+     {{/each}}
+   </tbody>
+
+  </table>
+
+  <div class="modal fade" id="addLessonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    {{> modal}}
+  </div>
+
+</template>

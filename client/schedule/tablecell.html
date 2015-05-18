@@ -1,7 +1,11 @@
-<template name="lessons">
+<template name="tablecell">
 
-  <td data-schedule="{{schedule}}" data-lessonnr="{{lessonnr}}" data-day={{day}}>
-    {{#each regDraggable lessongrp}}
+  <td data-schedule="{{schedule}}"
+    data-lessonnr="{{lessonnr}}"
+    data-day={{day}}
+    data-lessons={{lessons}}
+    class="{{conflictClass}}">
+    {{#each regDraggable lessons}}
       <div class="js-lesson"
         data-lessonnr="{{../lessonnr}}"
         data-day="{{../day}}"
@@ -11,6 +15,7 @@
         {{this.course}} {{this.room}} {{this.teacher}}
       </div>
     {{/each}}
+    <div class="js-conflict-text">{{conflictText}}</div>
   </td>
 
 </template>

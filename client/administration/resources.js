@@ -95,9 +95,9 @@ Controller('resources', {
           var name = pair[0].trim();
           var number = pair[1].trim();
 
-          if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: number } ).count() === 0) {
+          if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: +number } ).count() === 0) {
 
-            Meteor.call("studentAdding", name, number);
+            Meteor.call("studentAdding", name, +number);
 
             e.target.value = "";
           }

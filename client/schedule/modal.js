@@ -1,4 +1,4 @@
-Controller('add', {
+Controller('modal', {
   helpers: {
 
     /* course */
@@ -21,19 +21,30 @@ Controller('add', {
 
     /* lesson */
 
-    lessons: function () {
-
-      var ins = Template.instance().data;
-      var row = Rows.findOne( { schedule: ins.schedule, lessonnr: +ins.lessonnr} );
-
-      return row ? row[ins.day] : [];
+    schedule: function () {
+      Session.get('recompute');
+      return $("#addLessonModal").data('schedule');
     },
 
-    /* misc */
+    day: function () {
+      Session.get('recompute');
+      return $("#addLessonModal").data('day');
+    },
 
-    capitalize: function (str) {
+    lessonnr: function () {
+      Session.get('recompute');
+      return $("#addLessonModal").data('lessonnr');
+    },
 
-      return str && str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    lessons: function () {
+      Session.get('recompute');
+
+      var column = Columns.findOne( {
+        schedule: $("#addLessonModal").data('schedule'),
+        day: $("#addLessonModal").data('day'),
+        lessonnr: +($("#addLessonModal").data('lessonnr')) } );
+
+      return column ? column.lessons : [];
     }
   },
   events: {
@@ -63,17 +74,19 @@ Controller('add', {
         }
       }
 
-      var query = {};
-
-      query[this.day] = {
-        "course": course,
-        "room": rooms,
-        "teacher": teachers
-      };
-
       if(course && rooms.length > 0 && teachers.length > 0) {
 
-        Meteor.call("lessonAdding", t.data.schedule, t.data.lessonnr, query);
+        var lesson = {
+          "course": course,
+          "room": rooms,
+          "teacher": teachers
+        };
+
+        Meteor.call("lessonAdding",
+          $("#addLessonModal").data('schedule'),
+          $("#addLessonModal").data('lessonnr'),
+          $("#addLessonModal").data('day'),
+          lesson);
 
         $("#addLessonModal").modal('hide');
       }
@@ -81,15 +94,17 @@ Controller('add', {
     "click .js-remove-lesson": function (e, t) {
       e.preventDefault();
 
-      var query = {};
-
-      query[t.data.day] = {
+      var lesson = {
         "course": this.course,
         "room": this.room,
         "teacher": this.teacher
       };
 
-      Meteor.call("lessonRemoving", t.data.schedule, t.data.lessonnr, query);
+      Meteor.call("lessonRemoving",
+        $("#addLessonModal").data('schedule'),
+        $("#addLessonModal").data('lessonnr'),
+        $("#addLessonModal").data('day'),
+        lesson);
 
       $("#addLessonModal").modal('hide');
     }
