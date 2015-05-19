@@ -2,19 +2,30 @@ Meteor.methods({
 
   /* course */
 
-  courseEnrolling: function (id, query) {
+  courseEnrolling: function (id, number, checked) {
     if(Meteor.userId()) {
+
+      var query = {};
+
+      query[checked ? "$push" : "$pull"] = { students: number };
+
       Courses.update( { _id: id }, query );
+
+      fullConflictCheck();
     }
   },
   courseAdding: function (course) {
     if(Meteor.userId()) {
       Courses.insert( { course: course, students: [] } );
+
+      fullConflictCheck();
     }
   },
   courseRemoving: function (id) {
     if(Meteor.userId()) {
       Courses.remove(id);
+
+      fullConflictCheck();
     }
   },
 
@@ -23,11 +34,15 @@ Meteor.methods({
   roomAdding: function (room) {
     if(Meteor.userId()) {
       Rooms.insert( { room: room } );
+
+      fullConflictCheck();
     }
   },
   roomRemoving: function (id) {
     if(Meteor.userId()) {
       Rooms.remove(id);
+
+      fullConflictCheck();
     }
   },
 
@@ -36,11 +51,15 @@ Meteor.methods({
   teacherAdding: function (teacher) {
     if(Meteor.userId()) {
       Teachers.insert( { teacher: teacher } );
+
+      fullConflictCheck();
     }
   },
   teacherRemoving: function (id) {
     if(Meteor.userId()) {
       Teachers.remove(id);
+
+      fullConflictCheck();
     }
   },
 
@@ -66,6 +85,8 @@ Meteor.methods({
       for(var i = 0; i < classes.length; i++) {
         Classes.update( { _id: classes[i]._id }, { "$pull": { students: number } } );
       }
+
+      fullConflictCheck();
     }
   },
 
@@ -173,29 +194,79 @@ Meteor.methods({
 });
 
 Array.prototype.pushArray = function() {
-    var toPush = this.concat.apply([], arguments);
-    for (var i = 0, len = toPush.length; i < len; ++i) {
-        this.push(toPush[i]);
-    }
+
+  var toPush = this.concat.apply([], arguments);
+
+  for (var i = 0, len = toPush.length; i < len; ++i) {
+    this.push(toPush[i]);
+  }
 };
+
+Array.prototype.pushStudents = function (course) {
+
+  var students = Courses.findOne( { course: course } ).students;
+
+  for (var i = 0, len = students.length; i < len; ++i) {
+    this.push(  { student: students[i], course: course } );
+  }
+}
+
+var fullConflictCheck = function () {
+  console.log("fullConflictCheck");
+  var columns = Columns.find().fetch();
+
+  for(var i = 0; i < columns.length; i++) {
+
+    var lessons = columns[i].lessons;
+    var conflict = getConflict(lessons);
+
+    Columns.update( { _id: columns[i]._id },
+      { $set: { conflict: conflict } } );
+  }
+}
 
 var getConflict = function (lessons) {
 
   var courses = [];
   var rooms = [];
   var teachers = [];
+  var students = [];
+  var duplicates = [];
 
   for(var i = 0; i < lessons.length; i++) {
-    courses.push(lessons[i].course);
-    rooms.pushArray(lessons[i].room);
-    teachers.pushArray(lessons[i].teacher);
-  }
 
-  var duplicates = [];
+    var course = lessons[i].course;
+    if(Courses.findOne( { course: course } )) {
+      courses.push(course);
+      students.pushStudents(course);
+    }
+    else {
+      duplicates.push(course + "(removed)");
+    }
+
+    for(var r = 0, room = lessons[i].room; r < room.length; r++) {
+      if(Rooms.findOne( { room: room[r] } )) {
+        rooms.push(room[r]);
+      }
+      else {
+        duplicates.push(room[r] + "(removed)");
+      }
+    }
+
+    for(var t = 0, teacher = lessons[i].teacher; t < teacher.length; t++) {
+      if(Teachers.findOne( { teacher: teacher[t] } )) {
+        teachers.push(teacher[t]);
+      }
+      else {
+        duplicates.push(teacher[t] + "(removed)");
+      }
+    }
+  }
 
   duplicates.pushArray(getDuplicates(courses));
   duplicates.pushArray(getDuplicates(rooms));
   duplicates.pushArray(getDuplicates(teachers));
+  duplicates.pushArray(getDuplicateStudents(students));
 
   return duplicates.join(', ');
 }
@@ -214,6 +285,61 @@ var getDuplicates = function (array) {
    }
    elementB = elementA;
    elementA = array[i];
+  }
+
+  return duplicates;
+}
+
+var getDuplicateStudents = function (array) {
+
+  array.sort(function (a,b) {
+    if (a.student < b.student)
+      return -1;
+    if (a.student > b.student)
+      return 1;
+    return 0;
+  });
+
+  var previous = {};
+  var courses = [];
+  var duplicates = [];
+
+  for(var i = 0; i < array.length; i++) {
+
+    if(array[i].student === previous.student) {
+      /* collection */
+      if(courses.length === 0) {
+        courses.push(previous.course);
+      }
+      courses.push(array[i].course);
+    }
+    else {
+      /* storage */
+      if(courses.length !== 0) {
+
+        courses = courses.filter(function (value, index, self) {
+          return self.indexOf(value) === index;
+        });
+
+        duplicates.push(previous.student + "@" + courses.join("&"));
+
+        courses = [];
+      }
+    }
+
+    previous = array[i];
+  }
+
+  /* storage */
+  if(courses.length !== 0) {
+
+    courses = courses.filter(function (value, index, self) {
+      return self.indexOf(value) === index;
+    });
+
+    duplicates.push(previous.student + "@" + courses.join("&"));
+
+    courses = [];
   }
 
   return duplicates;

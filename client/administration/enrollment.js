@@ -69,11 +69,7 @@ Controller('enrollment', {
 
     "change .js-select-student": function (e) {
 
-      var query = {};
-
-      query[e.target.checked ? "$push" : "$pull"] = { students: this.number };
-
-      Meteor.call("courseEnrolling", Session.get("courseSelected"), query);
+      Meteor.call("courseEnrolling", Session.get("courseSelected"), this.number, e.target.checked);
     },
     "change .js-sort-student": function (e) {
 
