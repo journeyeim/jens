@@ -80,29 +80,11 @@ Meteor.methods({
         Courses.update( { _id: courses[i]._id }, { "$pull": { students: number } } );
       }
 
-      var classes = Classes.find().fetch();
-
-      for(var i = 0; i < classes.length; i++) {
-        Classes.update( { _id: classes[i]._id }, { "$pull": { students: number } } );
-      }
+      Options.update( { key: "enrollment" }, { "$pull": { value: number } } );
 
       fullConflictCheck();
     }
   },
-
-  /* class */
-
-  classSaving: function (className, students) {
-    if(Meteor.userId()) {
-      Classes.upsert( { class: className }, { $set: { students: students } } );
-    }
-  },
-  classRemoving: function (id) {
-    if(Meteor.userId()) {
-      Classes.remove(id);
-    }
-  },
-
 
   /* schedule */
 

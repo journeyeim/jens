@@ -39,7 +39,7 @@
           <div class="col-sm-4">
 
             <div class="page-header">
-              <h4>Student <small>Selection</small></h4>
+              <h4>Student <small>Enrollment</small></h4>
             </div>
 
             <div class="well well-sm">
@@ -54,7 +54,7 @@
                 {{/each}}
 
               {{else}}
-                <p>Select a course on the left first!</p>
+                <p>First select a course on the left!</p>
                 <p>Then select students in order to get them enrolled in the selected course!</p>
               {{/if}}
             </div>
@@ -66,33 +66,23 @@
           <div class="col-sm-4">
 
             <div class="page-header">
-              <h4>Option <small>Menu</small></h4>
+              <h4>Options <small>Menu</small></h4>
             </div>
 
-              {{#if courseSelected}}
-                <div class="well well-sm">
+            {{#if courseSelected}}
+              <div class="well well-sm">
 
-                <div>
-                  <label>
-                    <input type="checkbox" class="js-sort-student"> Sort Students by Number
-                  </label>
-                </div>
+              <p>
+                <label>
+                  <input type="checkbox" class="js-sort-student"> Sort Students by Number
+                </label>
+              </p>
 
-                <div class="btn-group js-full-width">
-                  <input type="text" class="form-control js-save-class" placeholder="Store Student Selection">
-                </div>
-
-                <div class="btn-group js-full-width">
-                  <button type="button" class="js-btn btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="caret"></span> Apply Student Selection
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    {{#each classes}}
-                      <li><a class="js-load-class"><a class="js-remove-class">x</a>{{class}}
-                      <span class="badge js-badge">{{classStudentCount _id}}</span></a></li>
-                    {{/each}}
-                  </ul>
-                </div>
+              <p>
+                <div>Copy-Paste Student Enrollment <span class="badge js-badge">{{enrollmentCount}}</span></div>
+                <a class="btn btn-default js-copy-enrollment">Copy</a>
+                <a class="btn btn-default js-paste-enrollment">Paste</a>
+              </p>
 
               </div>
             {{/if}}

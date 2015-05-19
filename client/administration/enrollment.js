@@ -42,14 +42,12 @@ Controller('enrollment', {
       return checked;
     },
 
-    /* class */
+    /* option */
 
-    classes: function () {
-      return Classes.find( {}, { sort: { class: 1 } } );
-    },
-    classStudentCount: function ( id ) {
+    enrollmentCount: function () {
 
-      return Classes.findOne( { _id: id } ).students.length;
+      var enrollment = Options.findOne( { key: "enrollment" } );
+      return enrollment ? enrollment.value.length : 0;
     }
   },
   events: {
@@ -76,57 +74,43 @@ Controller('enrollment', {
 
     /* class */
 
-    "keyup .js-save-class": function (e) {
+    "click .js-copy-enrollment": function (e) {
       e.preventDefault();
-
-      if(e.keyCode == 13 && e.target.value) {
 
         var checkboxes = $(".js-select-student");
         var students = [];
 
         for(var i = 0; i < checkboxes.length; i++) {
           if(checkboxes[i].checked) {
-            students.push(checkboxes[i].value);
+            students.push(+checkboxes[i].value);
           }
         }
 
-        Meteor.call("classSaving", e.target.value, students);
-
-        e.target.value = "";
-      }
+        Meteor.call("optionSet", "enrollment", students );
     },
-    "click .js-load-class": function (e) {
+    "click .js-paste-enrollment": function (e) {
       e.preventDefault();
 
-      var students = this.students;
+      var students = Options.findOne( { key: "enrollment" } ).value;
       var checkboxes = $(".js-select-student");
 
       for(var i = 0; i < checkboxes.length; i++) {
 
-        var checkedBeforeChange = checkboxes[i].checked;
+        if($.inArray(+checkboxes[i].value, students) !== -1) {
 
-        if($.inArray(checkboxes[i].value, students) !== -1) {
-
-          checkboxes[i].checked = true;
-
-          if(! checkedBeforeChange) {
+          if(checkboxes[i].checked === false) {
+            checkboxes[i].checked = true;
             $(checkboxes[i]).trigger("change");
           }
         }
         else {
 
-          checkboxes[i].checked = false;
-
-          if(checkedBeforeChange) {
+          if(checkboxes[i].checked === true) {
+            checkboxes[i].checked = false;
             $(checkboxes[i]).trigger("change");
           }
         }
       }
-    },
-    "click .js-remove-class": function (e) {
-      e.preventDefault();
-
-      Meteor.call("classRemoving", this._id);
     }
   }
 });

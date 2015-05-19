@@ -68,18 +68,12 @@ a:link, a:visited, a:hover, a:active {
 .js-remove-room,
 .js-remove-teacher,
 .js-remove-student,
-.js-remove-class,
 .js-remove-lesson {
   float: right;
   cursor: pointer;
 }
 
-.js-remove-class {
-  margin-left: 20px;
-}
-
-.js-remove-schedule,
-.js-load-class {
+.js-remove-schedule {
   cursor: pointer;
 }
 
