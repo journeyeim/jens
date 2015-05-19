@@ -60,9 +60,7 @@ Controller('enrollment', {
 
       var value = e.target.value;
 
-      Meteor.defer(function() {
-        Session.set("courseSelected", value);
-      });
+      Session.set("courseSelected", value);
     },
 
     /* student */

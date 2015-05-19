@@ -89,6 +89,10 @@ a:link, a:visited, a:hover, a:active {
 
 .js-conflict-text {
   color: black;
+  word-wrap: break-word;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .js-btn {

@@ -158,15 +158,17 @@ Meteor.methods({
   lessonAdding: function (schedule, lessonnr, day, lesson) {
     if(Meteor.userId()) {
 
-      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
-        { $push: { lessons: lesson } } );
+      if(Columns.find( { schedule: schedule, lessonnr: +lessonnr, day: day, lessons: lesson } ).count() === 0) {
+        Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+          { $push: { lessons: lesson } } );
 
-      var lessons = Columns.findOne( { schedule: schedule, lessonnr: +lessonnr, day: day } ).lessons;
+        var lessons = Columns.findOne( { schedule: schedule, lessonnr: +lessonnr, day: day } ).lessons;
 
-      var conflict = getConflict(lessons);
+        var conflict = getConflict(lessons);
 
-      Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
-        { $set: { conflict: conflict } } );
+        Columns.update( { schedule: schedule, lessonnr: +lessonnr, day: day },
+          { $set: { conflict: conflict } } );
+      }
     }
   },
   lessonRemoving: function (schedule, lessonnr, day, lesson) {
@@ -228,8 +230,11 @@ var fullConflictCheck = function () {
 var getConflict = function (lessons) {
 
   var courses = [];
+  var coursesRemoved = [];
   var rooms = [];
+  var roomsRemoved = [];
   var teachers = [];
+  var teachersRemoved = [];
   var students = [];
   var duplicates = [];
 
@@ -241,7 +246,7 @@ var getConflict = function (lessons) {
       students.pushStudents(course);
     }
     else {
-      duplicates.push(course + "(removed)");
+      coursesRemoved.push(course);
     }
 
     for(var r = 0, room = lessons[i].room; r < room.length; r++) {
@@ -249,7 +254,7 @@ var getConflict = function (lessons) {
         rooms.push(room[r]);
       }
       else {
-        duplicates.push(room[r] + "(removed)");
+        roomsRemoved.push(room[r]);
       }
     }
 
@@ -258,9 +263,33 @@ var getConflict = function (lessons) {
         teachers.push(teacher[t]);
       }
       else {
-        duplicates.push(teacher[t] + "(removed)");
+        teachersRemoved.push(teacher[t]);
       }
     }
+  }
+
+  coursesRemoved = coursesRemoved.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
+
+  for(var i = 0; i < coursesRemoved.length; i++) {
+    duplicates.push(coursesRemoved[i] + "(removed)");
+  }
+
+  roomsRemoved = roomsRemoved.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
+
+  for(var i = 0; i < roomsRemoved.length; i++) {
+    duplicates.push(roomsRemoved[i] + "(removed)");
+  }
+
+  teachersRemoved = teachersRemoved.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
+
+  for(var i = 0; i < teachersRemoved.length; i++) {
+    duplicates.push(teachersRemoved[i] + "(removed)");
   }
 
   duplicates.pushArray(getDuplicates(courses));

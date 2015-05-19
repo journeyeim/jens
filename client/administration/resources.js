@@ -1,16 +1,38 @@
 Controller('resources', {
+  rendered: function() {
+    Session.set("coursesNotice", "");
+    Session.set("roomsNotice", "");
+    Session.set("teachersNotice", "");
+    Session.set("studentsNoticeA", "");
+    Session.set("studentsNoticeB", "");
+  },
   helpers: {
     courses: function () {
       return Courses.find( {}, { sort: { course: 1 } } );
     },
+    coursesNotice: function () {
+      return Session.get("coursesNotice");
+    },
     rooms: function () {
       return Rooms.find( {}, { sort: { room: 1 } } );
+    },
+    roomsNotice: function () {
+      return Session.get("roomsNotice");
     },
     teachers: function () {
       return Teachers.find( {}, { sort: { teacher: 1 } } );
     },
+    teachersNotice: function () {
+      return Session.get("teachersNotice");
+    },
     students: function () {
       return Students.find( {}, { sort: { student: 1 } } );
+    },
+    studentsNoticeA: function () {
+      return Session.get("studentsNoticeA");
+    },
+    studentsNoticeB: function () {
+      return Session.get("studentsNoticeB");
     }
   },
   events: {
@@ -20,13 +42,23 @@ Controller('resources', {
     "keyup .js-add-course": function (e) {
       e.preventDefault();
 
-      var name = e.target.value;
+      var name = e.target.value.trim();
 
-      if(e.keyCode == 13 && name && Courses.find( { course: name } ).count() === 0) {
+      if(e.keyCode == 13
+        && name
+        && Courses.find( { course: name } ).count() === 0) {
 
         Meteor.call("courseAdding", name);
 
         e.target.value = "";
+      }
+      else {
+
+        Session.set("coursesNotice", coursesNotice(
+          e.keyCode,
+          name,
+          Courses.find( { course: name } ).count()
+        ));
       }
     },
     "click .js-remove-course": function (e) {
@@ -44,13 +76,26 @@ Controller('resources', {
     "keyup .js-add-room": function (e) {
       e.preventDefault();
 
-      var name = e.target.value;
+      var name = e.target.value.trim();
 
-      if(e.keyCode == 13 && name && Rooms.find( { room: name } ).count() === 0) {
+      if(e.keyCode == 13
+        && name
+        && name.indexOf(",") === -1
+        && Rooms.find( { room: name } ).count() === 0) {
 
         Meteor.call("roomAdding", name);
 
         e.target.value = "";
+
+        Session.set("roomsNotice", "");
+      }
+      else {
+
+        Session.set("roomsNotice", roomsNotice(
+          e.keyCode,
+          name,
+          Rooms.find( { room: name } ).count()
+        ));
       }
     },
     "click .js-remove-room": function (e) {
@@ -64,13 +109,24 @@ Controller('resources', {
     "keyup .js-add-teacher": function (e) {
       e.preventDefault();
 
-      var name = e.target.value;
+      var name = e.target.value.trim();
 
-      if(e.keyCode == 13 && name && Teachers.find( { teacher: name } ).count() === 0) {
+      if(e.keyCode == 13
+        && name
+        && name.indexOf(",") === -1
+        && Teachers.find( { teacher: name } ).count() === 0) {
 
         Meteor.call("teacherAdding", name);
 
         e.target.value = "";
+      }
+      else {
+
+        Session.set("teachersNotice", teachersNotice(
+          e.keyCode,
+          name,
+          Teachers.find( { teacher: name } ).count()
+        ));
       }
     },
     "click .js-remove-teacher": function (e) {
@@ -84,7 +140,7 @@ Controller('resources', {
     "keyup .js-add-student": function (e) {
       e.preventDefault();
 
-      var student = e.target.value;
+      var student = e.target.value.trim();
 
       if(e.keyCode == 13 && student) {
 
@@ -95,19 +151,41 @@ Controller('resources', {
           var name = pair[0].trim();
           var number = pair[1].trim();
 
-          if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: +number } ).count() === 0) {
+          if(name.length > 0
+            && number.length > 0
+            && number.isNumber()
+            && Students.find( { student: name, number: +number } ).count() === 0) {
 
             Meteor.call("studentAdding", name, +number);
 
             e.target.value = "";
           }
+          else {
+
+            Session.set("studentsNoticeA", studentsNotice3(
+              name,
+              number,
+              Students.find( { student: name, number: +number } ).count()
+            ));
+          }
         }
+        else {
+          Session.set("studentsNoticeA", "Right Format: 'Name, Number'");
+        }
+      }
+      else {
+
+        Session.set("studentsNoticeA", studentsNotice1(
+          e.keyCode,
+          student
+        ));
       }
     },
     "keyup .js-add-students": function (e) {
       e.preventDefault();
 
-      var students = e.target.value;
+      var students = e.target.value = e.target.value.trim();
+      var misformats = [];
 
       if(e.keyCode == 13 && students) {
 
@@ -122,14 +200,37 @@ Controller('resources', {
             var name = pair[0].trim();
             var number = pair[1].trim();
 
-            if(name.length > 0 && number.length > 0 && Students.find( { student: name, number: number } ).count() === 0) {
+            if(name.length > 0
+              && number.length > 0
+              && number.isNumber()) {
 
-              Meteor.call("studentAdding", name, number);
+              if(Students.find( { student: name, number: +number } ).count() === 0) {
+
+                Meteor.call("studentAdding", name, +number);
+              }
             }
+            else {
+              misformats.push(i+1);
+            }
+          }
+          else {
+            misformats.push(i+1);
           }
         }
 
-        e.target.value = "";
+        if(misformats.length === 0) {
+          e.target.value = "";
+        }
+        else {
+          Session.set("studentsNoticeB", "Wrong format on line " + misformats.join(", ") + ".");
+        }
+      }
+      else {
+
+        Session.set("studentsNoticeB", studentsNotice1(
+          e.keyCode,
+          students
+        ));
       }
     },
     "click .js-remove-student": function (e) {
@@ -139,3 +240,74 @@ Controller('resources', {
     }
   }
 });
+
+String.prototype.isNumber = function(){return /^\d+$/.test(this);}
+
+var coursesNotice = function (keyCode, name, count) {
+  if(keyCode == 13 && ! name ) {
+    return "Enter Name";
+  }
+  else if (count !== 0) {
+    return "Double Entry";
+  }
+  else {
+    return "";
+  }
+}
+
+var roomsNotice = function (keyCode, name, count) {
+  if(keyCode == 13 && ! name ) {
+    return "Enter Name";
+  }
+  else if (name.indexOf(",") !== -1) {
+    return "Remove Comma";
+  }
+  else if (count !== 0) {
+    return "Double Entry";
+  }
+  else {
+    return "";
+  }
+}
+
+var teachersNotice = function (keyCode, name, count) {
+  if(keyCode == 13 && ! name ) {
+    return "Enter Name";
+  }
+  else if (name.indexOf(",") !== -1) {
+    return "Remove Comma";
+  }
+  else if (count !== 0) {
+    return "Double Entry";
+  }
+  else {
+    return "";
+  }
+}
+
+var studentsNotice1 = function (keyCode, name) {
+  if(keyCode == 13 && ! name ) {
+    return "Enter Name";
+  }
+  else {
+    return "";
+  }
+}
+
+var studentsNotice3 = function (name, number, count) {
+  if(name.length === 0) {
+    return "Missing Name";
+  }
+  else if(number.length === 0) {
+    return "Missing Number";
+  }
+  else if(! number.isNumber()) {
+    return "Wrong Number";
+  }
+  else if(count !== 0) {
+    return "Double Entry";
+  }
+  else {
+    return "";
+  }
+}

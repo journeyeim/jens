@@ -53,8 +53,8 @@ var registerDroppable = function (template) {
 
           var lesson = {
             "course": source.course,
-            "room": source.room,
-            "teacher": source.teacher
+            "room": source.room.split(","),
+            "teacher": source.teacher.split(",")
           };
 
           Meteor.call("lessonAdding", target.schedule, target.lessonnr, target.day, lesson);

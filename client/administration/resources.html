@@ -21,6 +21,7 @@
               {{/each}}
             </ul>
             <input type="text" class="form-control js-add-course" placeholder="Add Course">
+            <div class="js-conflict js-conflict-text">{{coursesNotice}}</div>
           </div>
 
           <div class="col-sm-2">
@@ -33,6 +34,7 @@
               {{/each}}
             </ul>
             <input type="text" class="form-control js-add-room" placeholder="Add Room">
+            <div class="js-conflict js-conflict-text">{{roomsNotice}}</div>
           </div>
 
           <div class="col-sm-2">
@@ -45,6 +47,7 @@
               {{/each}}
             </ul>
             <input type="text" class="form-control js-add-teacher" placeholder="Add Teacher">
+            <div class="js-conflict js-conflict-text">{{teachersNotice}}</div>
           </div>
 
           <div class="col-sm-6">
@@ -57,8 +60,10 @@
               {{/each}}
             </ul>
             <input type="text" class="form-control js-add-student" placeholder="Add Student Name, Number (separated by comma)">
+            <div class="js-conflict js-conflict-text">{{studentsNoticeA}}</div>
             <br>
             <textarea class="form-control js-add-students" rows="5" placeholder='or Paste Student List here (one "Name, Number" per line)'></textarea>
+            <div class="js-conflict js-conflict-text">{{studentsNoticeB}}</div>
           </div>
 
         </div>
