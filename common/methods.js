@@ -88,49 +88,58 @@ Meteor.methods({
 
   /* schedule */
 
-  scheduleAdding: function (schedule) {
-    if(Meteor.userId()) {
+  scheduleAdding: function ( schedule, copy ) {
+    if ( Meteor.userId() ) {
 
-      Schedules.insert( { schedule: schedule }, function (err, id) {
-        if(! err) {
-          Meteor.call("optionSet", "schedule", id);
-        }
-      });
+      var option = Options.findOne( { key: "schedule" } );
 
-      var days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ];
+      if ( copy && option && option.value ) {
 
-      for(var rowIdx = 1; rowIdx <= 15; rowIdx++) {
+        copy = Columns.find( { schedule: option.value },
+          { fields: { _id: 0 } } ).fetch();
 
-        Rows.insert( {
-          schedule: schedule,
-          lessonnr: rowIdx
-        } );
+        for ( var i = 0; i < copy.length; i++ ) {
 
-        for(var columnIdx = 1; columnIdx <= 5; columnIdx++) {
+          copy[i].schedule = schedule;
 
-          Columns.insert( {
-            schedule: schedule,
-            lessonnr: rowIdx,
-            daynr: columnIdx,
-            day: days[columnIdx - 1],
-            lessons: [],
-            conflict: ""
-          } );
+          Columns.insert( copy[i] );
         }
       }
+      else {
+
+        var days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ];
+
+        for ( var rowIdx = 1; rowIdx <= 15; rowIdx++ ) {
+
+          for ( var columnIdx = 1; columnIdx <= 5; columnIdx++ ) {
+
+            Columns.insert( {
+              schedule: schedule,
+              lessonnr: rowIdx,
+              daynr: columnIdx,
+              day: days[columnIdx - 1],
+              lessons: [],
+              conflict: ""
+            } );
+          }
+        }
+      }
+
+      Schedules.insert( { schedule: schedule }, function (err, id) {
+        if ( ! err ) {
+          Meteor.call( "optionSet", "schedule", schedule );
+        }
+      } );
     }
   },
-  scheduleRemoving: function (id) {
+  scheduleRemoving: function (schedule) {
     if(Meteor.userId()) {
 
-      if(Options.findOne( { key: "schedule" } ).value === id) {
+      if(Options.findOne( { key: "schedule" } ).value === schedule) {
         Meteor.call("optionSet", "schedule", null);
       }
 
-      var schedule = Schedules.findOne( { _id: id } ).schedule;
-
       Columns.remove( { schedule: schedule } );
-      Rows.remove( { schedule: schedule } );
       Schedules.remove( { schedule: schedule } );
     }
   },
@@ -196,7 +205,7 @@ Array.prototype.pushStudents = function (course) {
 }
 
 var fullConflictCheck = function () {
-  console.log("fullConflictCheck");
+
   var columns = Columns.find().fetch();
 
   for(var i = 0; i < columns.length; i++) {

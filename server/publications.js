@@ -34,12 +34,6 @@ Meteor.publish("schedules", function () {
   }
 });
 
-Meteor.publish("rows", function () {
-  if(this.userId) {
-    return Rows.find();
-  }
-});
-
 Meteor.publish("columns", function () {
   if(this.userId) {
     return Columns.find();

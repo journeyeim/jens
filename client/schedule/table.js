@@ -1,14 +1,27 @@
 Controller('table', {
   rendered: function() {
-    registerDroppable(this);
   },
   helpers: {
+    regHack: function ( bypass ) {
+
+      var ins = Template.instance();
+
+      Meteor.setTimeout( function () {
+        registerDroppable( ins );
+      }, 1000 );
+
+      return bypass;
+    },
     rows: function () {
 
-      var id = Options.findOne( { key: "schedule" } ).value;
-      var schedule = Schedules.findOne( { _id: id }).schedule;
+      var rows = [];
+      var schedule = Options.findOne( { key: "schedule" } ).value;
 
-      return Rows.find( { schedule: schedule }, { sort: { lessonnr: 1 } } );
+      for(var i = 1; i <= 15; i++) {
+        rows.push( { schedule: schedule, lessonnr: i } );
+      }
+
+      return rows;
     },
     columns: function (schedule, lessonnr) {
 
@@ -37,9 +50,9 @@ Controller('table', {
   }
 });
 
-var registerDroppable = function (template) {
+var registerDroppable = function ( table ) {
 
-  $(template.findAll('td')).each(function(index, element) {
+  $( table.findAll( 'td' ) ).each( function( index, element ) {
 
     $(element).droppable({
       accept: ".js-lesson",

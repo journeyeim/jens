@@ -2,15 +2,15 @@ Controller('tablecell', {
   rendered: function() {
   },
   helpers: {
-    regDraggable: function (triggerOnly) {
+    regHack: function ( bypass ) {
 
-      var template = Template.instance();
+      var ins = Template.instance();
 
-      Meteor.defer(function () {
-        registerDraggable(template);
-      });
+      Meteor.setTimeout( function () {
+        registerDraggable( ins );
+      }, 1000 );
 
-      return triggerOnly;
+      return bypass;
     },
     conflictClass: function () {
 
@@ -25,9 +25,9 @@ Controller('tablecell', {
   }
 });
 
-var registerDraggable = function (template) {
+var registerDraggable = function ( template ) {
 
-  $(template.findAll('.js-lesson')).each(function (index, element) {
+  $( template.findAll( '.js-lesson' ) ).each( function ( index, element ) {
 
     $(element).draggable({
       addClasses: false,

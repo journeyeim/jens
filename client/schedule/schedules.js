@@ -8,16 +8,15 @@ Controller('schedules', {
     },
     scheduleSelected: function () {
 
-      var option = Options.findOne( { key: "schedule" } )
+      var option = Options.findOne( { key: "schedule" } );
 
       return option && option.value;
     },
     scheduleSelectedName: function () {
 
       var option = Options.findOne( { key: "schedule" } )
-      var id = option && option.value;
 
-      return id ? Schedules.findOne( { _id: id }).schedule : "Select Schedule";
+      return ( option && option.value ) ? option.value : "Select Schedule";
     }
   },
   events: {
@@ -27,16 +26,25 @@ Controller('schedules', {
     "click .js-select-schedule": function (e) {
       e.preventDefault();
 
-      Meteor.call("optionSet", "schedule", this._id );
+      Meteor.call("optionSet", "schedule", this.schedule );
     },
     "keyup .js-add-schedule": function (e) {
       e.preventDefault();
 
-      var name = e.target.value;
+      var name = e.target.value.trim();
+      var copy = false;
 
-      if(e.keyCode == 13 && name && Schedules.find( { schedule: name } ).count() === 0) {
+      if ( ( name.charAt( 0 ) === '>' ) ) {
 
-        Meteor.call("scheduleAdding", name);
+        copy = true;
+        name = name.substr( 1 ).trim();
+      }
+
+      if( e.keyCode == 13
+        && name
+        && ( Schedules.find( { schedule: name } ).count() === 0 ) ) {
+
+        Meteor.call("scheduleAdding", name, copy);
 
         e.target.value = "";
       }
@@ -44,7 +52,7 @@ Controller('schedules', {
     "click .js-remove-schedule": function (e) {
       e.preventDefault();
 
-      Meteor.call("scheduleRemoving", this._id);
+      Meteor.call("scheduleRemoving", this.schedule);
     }
   }
 });
