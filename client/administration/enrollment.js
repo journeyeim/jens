@@ -2,6 +2,10 @@ Controller('enrollment', {
   rendered: function() {
     Session.set("courseSelected", null);
     Session.set("sortByNumber", null);
+
+    Meteor.setTimeout(function(){
+      $(".js-select-course").first().trigger("click");
+    }, 1 );
   },
   helpers: {
 
@@ -9,6 +13,9 @@ Controller('enrollment', {
 
     courses: function () {
       return Courses.find( {}, { sort: { course: 1 } } );
+    },
+    courseExist: function () {
+      return Courses.find().count() > 0;
     },
     courseSelected: function () {
       return Session.get("courseSelected");
@@ -24,6 +31,9 @@ Controller('enrollment', {
       var query = Session.get("sortByNumber") ? { number: 1 } : { student: 1 };
 
       return Students.find( {}, { sort: query } );
+    },
+    studentExist: function () {
+      return Students.find( ).count() > 0;
     },
     studentChecked: function ( number ) {
 
