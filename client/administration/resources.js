@@ -39,26 +39,21 @@ Controller('resources', {
 
     /* courses */
 
-    "keyup .js-add-course": function (e) {
+    "keyup .js-add-course": function ( e ) {
       e.preventDefault();
 
-      var name = e.target.value.trim();
+      var course = new Course( e.target.value, e.keyCode );
 
-      if(e.keyCode == 13
-        && name
-        && Courses.find( { course: name } ).count() === 0) {
+      if ( ! course.error && e.keyCode === 13  ) {
 
-        Meteor.call("courseAdding", name);
+        course.save();
 
         e.target.value = "";
+
+        Session.set( "coursesNotice", "" );
       }
       else {
-
-        Session.set("coursesNotice", coursesNotice(
-          e.keyCode,
-          name,
-          Courses.find( { course: name } ).count()
-        ));
+        Session.set( "coursesNotice", course.error );
       }
     },
     "click .js-remove-course": function (e) {
@@ -243,18 +238,6 @@ Controller('resources', {
 
 String.prototype.isNumber = function(){return /^\d+$/.test(this);}
 
-var coursesNotice = function (keyCode, name, count) {
-  if(keyCode == 13 && ! name ) {
-    return "Enter Name";
-  }
-  else if (count !== 0) {
-    return "Double Entry";
-  }
-  else {
-    return "";
-  }
-}
-
 var roomsNotice = function (keyCode, name, count) {
   if(keyCode == 13 && ! name ) {
     return "Enter Name";
@@ -311,3 +294,38 @@ var studentsNotice3 = function (name, number, count) {
     return "";
   }
 }
+
+Course = function ( name, keyCode ) {
+  this._name = name && name.trim();
+  this._keyCode = keyCode;
+
+  if ( keyCode === 13 && ! this._name ) {
+    this._error = "Enter Name";
+  }
+  else if ( Courses.find( { course: this._name } ).count() !== 0 ) {
+    this._error = "Double Entry";
+  }
+  else {
+    this._error = "";
+  }
+};
+
+Course.prototype = {
+  save: function () {
+    if ( ! this._name ) {
+      throw "Name is not defined!";
+    }
+    else if ( this._keyCode !== 13 ) {
+      throw "KeyCode is not 'enter'!";
+    }
+    else {
+      Meteor.call( "courseAdding", this._name );
+    }
+  },
+  get name() {
+    return this._name;
+  },
+  get error() {
+    return this._error;
+  }
+};

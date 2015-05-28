@@ -39,12 +39,12 @@ Controller('modal', {
     lessons: function () {
       Session.get('recompute');
 
-      var column = Columns.findOne( {
+      var cell = Cells.findOne( {
         schedule: $("#addLessonModal").data('schedule'),
         day: $("#addLessonModal").data('day'),
         lessonnr: +($("#addLessonModal").data('lessonnr')) } );
 
-      return column ? column.lessons : [];
+      return cell ? cell.lessons : [];
     }
   },
   events: {

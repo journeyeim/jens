@@ -23,9 +23,9 @@ Controller('table', {
 
       return rows;
     },
-    columns: function (schedule, lessonnr) {
+    cells: function (schedule, lessonnr) {
 
-      return Columns.find( { schedule: schedule, lessonnr: lessonnr }, { sort: { daynr: 1 } } );
+      return Cells.find( { schedule: schedule, lessonnr: lessonnr }, { sort: { daynr: 1 } } );
     },
     days: function () {
       return [ "Monday",

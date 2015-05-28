@@ -3,5 +3,5 @@ Rooms = new Mongo.Collection("rooms");
 Teachers = new Mongo.Collection("teachers");
 Students = new Mongo.Collection("students");
 Schedules = new Mongo.Collection("schedules");
-Columns = new Mongo.Collection("columns");
+Cells = new Mongo.Collection("cells");
 Options = new Mongo.Collection("options");

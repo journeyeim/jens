@@ -22,21 +22,15 @@ Meteor.publish("students", function () {
   }
 });
 
-Meteor.publish("classes", function () {
-  if(this.userId) {
-    return Classes.find();
-  }
-});
-
 Meteor.publish("schedules", function () {
   if(this.userId) {
     return Schedules.find();
   }
 });
 
-Meteor.publish("columns", function () {
+Meteor.publish("cells", function () {
   if(this.userId) {
-    return Columns.find();
+    return Cells.find();
   }
 });
 

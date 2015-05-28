@@ -17,7 +17,7 @@
         <th>
           {{lessonnr}}
         </th>
-        {{#each columns schedule lessonnr}}
+        {{#each cells schedule lessonnr}}
           {{> tablecell schedule=schedule day=day lessonnr=lessonnr lessons=lessons conflict=conflict}}
         {{/each}}
       </tr>

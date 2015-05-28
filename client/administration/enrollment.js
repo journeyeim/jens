@@ -77,13 +77,13 @@ Controller('enrollment', {
 
       Meteor.call("courseEnrolling", Session.get("courseSelected"), this.number, e.target.checked);
     },
+
+    /* option */
+
     "change .js-sort-student": function (e) {
 
       Session.set("sortByNumber", e.target.checked);
     },
-
-    /* class */
-
     "click .js-copy-enrollment": function (e) {
       e.preventDefault();
 

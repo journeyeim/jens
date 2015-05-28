@@ -3,8 +3,8 @@ Meteor.startup(function () {
   if(Meteor.users.find().count() === 0) {
 
     var uid =  Accounts.createUser({
-      email: "journeyeim@gmail.com",
-      password: "1password"
+      email: Meteor.settings.email,
+      password: Meteor.settings.password
     });
   }
 
