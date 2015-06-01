@@ -298,15 +298,13 @@ var studentsNotice3 = function (name, number, count) {
 Course = function ( name, keyCode ) {
   this._name = name && name.trim();
   this._keyCode = keyCode;
+  this._error = "";
 
   if ( keyCode === 13 && ! this._name ) {
     this._error = "Enter Name";
   }
   else if ( Courses.find( { course: this._name } ).count() !== 0 ) {
     this._error = "Double Entry";
-  }
-  else {
-    this._error = "";
   }
 };
 
@@ -317,6 +315,9 @@ Course.prototype = {
     }
     else if ( this._keyCode !== 13 ) {
       throw "KeyCode is not 'enter'!";
+    }
+    else if ( this.error ) {
+      throw "Implementation logic error!";
     }
     else {
       Meteor.call( "courseAdding", this._name );

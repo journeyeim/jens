@@ -1,13 +1,11 @@
-describe( "games feature", function() {
-  /*
+describe( "Course Section", function() {
+
   beforeEach(function ( done ) {
     Meteor.loginWithPassword("journeyeim@gmail.com", "1password", function( err ) {
-      Router.go( 'games' );
+      Router.go( 'administration' );
       Tracker.afterFlush( done );
     } );
   } );
-
-  beforeEach( waitForRouter );
 
   afterEach( function( done ) {
     Meteor.logout( function() {
@@ -15,8 +13,7 @@ describe( "games feature", function() {
     } );
   } );
 
-*/
-  it( "shows dummy", function() {
-    expect( 57 ).toBe( 57 );
+  it( "displays courses", function() {
+    expect( $( '.js-remove-course' ).length ).toEqual( 2 );
   } );
 } );

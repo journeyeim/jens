@@ -1,4 +1,4 @@
-describe( "Login template", function() {
+describe( "Login Template", function() {
   it( "shows 'Please, log in!' heading", function() {
     /*
     var div = document.createElement( "DIV" );

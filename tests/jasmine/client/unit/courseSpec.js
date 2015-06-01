@@ -16,13 +16,6 @@ describe( "Course", function () {
         expect( course.name ).toBe( "MOB" );
     } );
 
-    it( "should NOT set error if NOT empty name entered", function () {
-
-        var course = new Course( "MOB", 13 );
-
-        expect( course.error ).not.toBe( "Enter Name" );
-    } );
-
     it( "should set error if empty name entered", function () {
 
         var course = new Course( "", 13 );
@@ -30,19 +23,18 @@ describe( "Course", function () {
         expect( course.error ).toBe( "Enter Name" );
     } );
 
+    it( "should set NO error if entered name is not empty", function () {
+
+        var course = new Course( "MOB", 13 );
+
+        expect( course.error ).not.toBe( "Enter Name" );
+    } );
+
     it( "should clear error if name is deleted by backspace", function () {
 
         var course = new Course( "", 8 );
 
         expect( course.error ).toBe( "" );
-    } );
-
-    it( "should set error if name already exists", function () {
-        spyOn( Courses, "find" ).and.returnValue( { count: function() { return 1; } } );
-
-        var course = new Course( "MOB", 13 );
-
-        expect( course.error ).toBe( "Double Entry" );
     } );
 
     it( "should check name on all keyup events not just on enter", function () {
@@ -57,7 +49,15 @@ describe( "Course", function () {
         expect( course3.error ).toBe( "Double Entry" );
     } );
 
-    it( "should NOT set error if name does NOT exists", function () {
+    it( "should set error if name already exists", function () {
+        spyOn( Courses, "find" ).and.returnValue( { count: function() { return 1; } } );
+
+        var course = new Course( "MOB", 13 );
+
+        expect( course.error ).toBe( "Double Entry" );
+    } );
+
+    it( "should set NO error if name is unique", function () {
         spyOn( Courses, "find" ).and.returnValue( { count: function() { return 0; } } );
 
         var course1 = new Course( "MOB", 8 );
@@ -69,7 +69,7 @@ describe( "Course", function () {
         expect( course3.error ).not.toBe( "Double Entry" );
     } );
 
-    it( "should NOT set error if everything is OK", function () {
+    it( "should set NO error if everything is OK", function () {
         spyOn( Courses, "find" ).and.returnValue( { count: function() { return 0; } } );
 
         var course1 = new Course( "MOB", 13 );
@@ -92,7 +92,13 @@ describe( "Course", function () {
 
         expect( new Course( "", 13 ).save ).toThrow( "Name is not defined!" );
     } );
+
     /*
+    it( "should not save when name is duplicate", function () {
+        spyOn( Courses, "find" ).and.returnValue( { count: function() { return 1; } } );
+
+        expect( new Course( "MOB", 13 ).save ).toThrow( "Implementation logic error!" );
+    } );
     it( "should not save when keyCode is not enter", function () {
 
         expect( new Course( "MOB", 32 ).save ).toThrow( "KeyCode is not 'enter'!" );
